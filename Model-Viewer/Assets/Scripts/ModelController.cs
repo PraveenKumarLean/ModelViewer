@@ -9,6 +9,7 @@ public class ModelController : MonoBehaviour
     private GameObject model;
     [Tooltip("Mouse Drag to Object Rotation Speed")]
     [SerializeField]
+    [Range(0,1)]
     private float speed;
     private Vector3 positionOffset;
     private float zPosition;
@@ -59,13 +60,6 @@ public class ModelController : MonoBehaviour
 
     void RoateModel()
     {
-
-        //float axisX = Input.GetAxis("Mouse X") * speed * Mathf.Deg2Rad;
-        //float axisY = Input.GetAxis("Mouse Y") * speed * Mathf.Deg2Rad;
-
-        //model.transform.Rotate(Vector3.up, -axisX);
-        //model.transform.Rotate(Vector3.right, -axisY);
-
         if (Input.GetMouseButton(1))
         {
 

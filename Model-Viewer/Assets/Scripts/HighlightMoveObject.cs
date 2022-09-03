@@ -1,25 +1,61 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HighlightMoveObject : MonoBehaviour
 {
-    Renderer renderer;
+    [Tooltip("Name Display Object")]
+    [SerializeField]
+    private GameObject NameDisplay;
+    Renderer objectRenderer;
     Color color;
+    Text textBox;
     private void Start()
     {
-        renderer = transform.GetComponent<Renderer>();
-        color = renderer.material.color;
+        objectRenderer = transform.GetComponent<Renderer>();
+        color = objectRenderer.material.color;
+        textBox = NameDisplay.GetComponentInChildren<Text>();
+        NameDisplay.SetActive(false);
     }
 
     private void OnMouseEnter()
     {
-        renderer.material.color = Color.blue;
+        objectRenderer.material.color = Color.blue;
     }
 
     private void OnMouseExit()
     {
-        renderer.material.color = color;
+        objectRenderer.material.color = color;
+        
+    }
+
+
+    void OnMouseDown()
+    {
+
+        zPosition = Camera.main.WorldToScreenPoint(gameObject.transform.position).z;
+        positionOffset = gameObject.transform.position - GetMouseAsWorldPoint();
+       // NameDisplay.transform.SetParent(transform);
+       // NameDisplay.transform.position = transform.position;
+        NameDisplay.SetActive(true);
+        textBox.text = transform.name;
+    }
+
+    private void OnMouseUp()
+    {
+            NameDisplay.SetActive(false);
+        //if (NameDisplay.transform.parent == transform)
+        //{
+        //    NameDisplay.transform.SetParent(null);
+        //}
+    }
+
+    void OnMouseDrag()
+    {
+
+        transform.position = GetMouseAsWorldPoint() + positionOffset;
+
     }
 
     private Vector3 positionOffset;
@@ -29,14 +65,6 @@ public class HighlightMoveObject : MonoBehaviour
     private float zPosition;
 
 
-
-    void OnMouseDown()
-    {
-
-            zPosition = Camera.main.WorldToScreenPoint(gameObject.transform.position).z;
-            positionOffset = gameObject.transform.position - GetMouseAsWorldPoint();
-
-    }
 
 
 
@@ -64,10 +92,4 @@ public class HighlightMoveObject : MonoBehaviour
 
 
 
-    void OnMouseDrag()
-    {
-
-        transform.position = GetMouseAsWorldPoint() + positionOffset;
-
-    }
 }

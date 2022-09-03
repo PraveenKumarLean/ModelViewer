@@ -18,6 +18,11 @@ public class NameDisplayLookAt : MonoBehaviour
     [SerializeField]
     private bool justY;
     internal Camera cameraMain;
+
+    private void OnEnable()
+    {
+        cameraMain = Camera.main;
+    }
     void Start()
     {
         if (detachOnStart)
@@ -25,7 +30,7 @@ public class NameDisplayLookAt : MonoBehaviour
             parent = transform.parent;
             transform.SetParent(null);
         }
-        cameraMain = Camera.main;
+       
     }
 
     void FixedUpdate()
