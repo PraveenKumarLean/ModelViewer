@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class ModelController : MonoBehaviour
 {
@@ -14,6 +16,8 @@ public class ModelController : MonoBehaviour
     [Tooltip("Model child Parts")]
     [SerializeField]
     private Renderer[] childObjects;
+    [SerializeField]
+    private Material DefaultMaterial;
     [SerializeField]
     private Material X_RayMaterial;
 
@@ -37,10 +41,7 @@ public class ModelController : MonoBehaviour
         RoateModel();
 
 
-        if(Input.GetKeyDown(KeyCode.M))
-        {
-            X_RayMode();
-        }
+        
     }
 
 
@@ -93,17 +94,101 @@ public class ModelController : MonoBehaviour
         previousPose = Input.mousePosition;
     }
 
-    public void X_RayMode()
+    [SerializeField]
+    private TextMeshProUGUI XRayText;
+    [SerializeField]
+    private TextMeshProUGUI TransText;
+    [SerializeField]
+    private TextMeshProUGUI GunText;
+
+    public void  OnButtonPressed(string ButtonName)
     {
-        foreach(var i in childObjects)
+       // X_RayMode(false);
+       // TransparentMode(false);
+        switch (ButtonName)
         {
-            i.material = X_RayMaterial;
+            case "XRay":
+               
+                X_RayMode();
+
+                    break;
+            case "Transparent":
+                
+                TransparentMode();
+                break;
+            case "Gun":
+
+
+                break;
+
+
+        }
+
+
+    }
+    bool X_RayBool;
+    void X_RayMode()
+    {
+        X_RayBool = !X_RayBool;
+
+        if (X_RayBool)
+        {
+            XRayText.color = Color.green;
+            ChangeMaterial(X_RayMaterial);
+
+            buttonClickDelegate?.Invoke();
+            buttonClickDelegate += X_RayMode;
+
+        }
+        else
+        {
+            XRayText.color = Color.black;
+            ChangeMaterial(DefaultMaterial);
+            buttonClickDelegate -= X_RayMode;
+            buttonClickDelegate?.Invoke();
+        }
+
+    }
+
+    bool TransparentBool;
+
+    void TransparentMode()
+    {
+        TransparentBool = !TransparentBool;
+        if (TransparentBool)
+        {
+            TransText.color = Color.green;
+            buttonClickDelegate?.Invoke();
+            buttonClickDelegate += TransparentMode;
+        }
+        else
+        {
+            TransText.color = Color.black;
+            buttonClickDelegate -= TransparentMode;
+            buttonClickDelegate?.Invoke();
         }
     }
 
 
-    public void TansperentMode()
-    {
+    
 
+    void ChangeMaterial(Material materialToChange)
+    {
+        foreach (var i in childObjects)
+        {
+            i.material = materialToChange;
+        }
     }
+
+
+
+
+    public delegate void OnButtonClickDelegate();
+    private event OnButtonClickDelegate buttonClickDelegate;
+
+    public void OnButtonClick()
+    {
+        buttonClickDelegate();
+    }
+
 }
