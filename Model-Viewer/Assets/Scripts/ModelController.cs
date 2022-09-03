@@ -20,11 +20,16 @@ public class ModelController : MonoBehaviour
     private Material DefaultMaterial;
     [SerializeField]
     private Material X_RayMaterial;
-
+    [SerializeField]
+    private DropDownUI dropDownUI;
     private Vector3 positionOffset;
     private float zPosition;
 
-   
+    private void Start()
+    {
+        
+    }
+
     void Update()
     {
         if(Input.GetMouseButtonDown(2))  
@@ -99,7 +104,7 @@ public class ModelController : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI TransText;
     [SerializeField]
-    private TextMeshProUGUI GunText;
+    private TextMeshProUGUI ModelText;
 
     public void  OnButtonPressed(string ButtonName)
     {
@@ -116,15 +121,15 @@ public class ModelController : MonoBehaviour
                 
                 TransparentMode();
                 break;
-            case "Gun":
-
+            case "Model":
+                ModelMode();
 
                 break;
 
 
         }
 
-
+        Debug.Log("Function Called");
     }
     bool X_RayBool;
     void X_RayMode()
@@ -169,8 +174,28 @@ public class ModelController : MonoBehaviour
         }
     }
 
+    bool ModelBool;
 
-    
+    void ModelMode()
+    {
+        ModelBool = !ModelBool;
+        if (ModelBool)
+        {
+            dropDownUI.ScrollViewRect.gameObject.SetActive(true);
+            ModelText.color = Color.green;
+            buttonClickDelegate?.Invoke();
+            buttonClickDelegate += ModelMode;
+        }
+        else
+        {
+            dropDownUI.ScrollViewRect.gameObject.SetActive(false);
+            ModelText.color = Color.black;
+            buttonClickDelegate -= ModelMode;
+            buttonClickDelegate?.Invoke();
+        }
+    }
+
+
 
     void ChangeMaterial(Material materialToChange)
     {
@@ -186,9 +211,6 @@ public class ModelController : MonoBehaviour
     public delegate void OnButtonClickDelegate();
     private event OnButtonClickDelegate buttonClickDelegate;
 
-    public void OnButtonClick()
-    {
-        buttonClickDelegate();
-    }
+    
 
 }
