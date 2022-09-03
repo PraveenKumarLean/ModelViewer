@@ -14,13 +14,13 @@ public class HighlightMoveObject : MonoBehaviour
     private void Start()
     {
         objectRenderer = transform.GetComponent<Renderer>();
-        color = objectRenderer.material.color;
         textBox = NameDisplay.GetComponentInChildren<Text>();
         NameDisplay.SetActive(false);
     }
 
     private void OnMouseEnter()
     {
+        color = objectRenderer.material.color;
         objectRenderer.material.color = Color.blue;
     }
 

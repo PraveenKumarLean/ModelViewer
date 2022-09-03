@@ -11,6 +11,12 @@ public class ModelController : MonoBehaviour
     [SerializeField]
     [Range(0,1)]
     private float speed;
+    [Tooltip("Model child Parts")]
+    [SerializeField]
+    private Renderer[] childObjects;
+    [SerializeField]
+    private Material X_RayMaterial;
+
     private Vector3 positionOffset;
     private float zPosition;
 
@@ -29,6 +35,12 @@ public class ModelController : MonoBehaviour
         }
 
         RoateModel();
+
+
+        if(Input.GetKeyDown(KeyCode.M))
+        {
+            X_RayMode();
+        }
     }
 
 
@@ -81,5 +93,17 @@ public class ModelController : MonoBehaviour
         previousPose = Input.mousePosition;
     }
 
-    
+    public void X_RayMode()
+    {
+        foreach(var i in childObjects)
+        {
+            i.material = X_RayMaterial;
+        }
+    }
+
+
+    public void TansperentMode()
+    {
+
+    }
 }
