@@ -21,4 +21,53 @@ public class HighlightMoveObject : MonoBehaviour
     {
         renderer.material.color = color;
     }
+
+    private Vector3 positionOffset;
+
+
+
+    private float zPosition;
+
+
+
+    void OnMouseDown()
+    {
+
+            zPosition = Camera.main.WorldToScreenPoint(gameObject.transform.position).z;
+            positionOffset = gameObject.transform.position - GetMouseAsWorldPoint();
+
+    }
+
+
+
+    private Vector3 GetMouseAsWorldPoint()
+
+    {
+
+        // Pixel coordinates of mouse (x,y)
+
+        Vector3 mousePoint = Input.mousePosition;
+
+
+
+        // z coordinate of game object on screen
+
+        mousePoint.z = zPosition;
+
+
+
+        // Convert it to world points
+
+        return Camera.main.ScreenToWorldPoint(mousePoint);
+
+    }
+
+
+
+    void OnMouseDrag()
+    {
+
+        transform.position = GetMouseAsWorldPoint() + positionOffset;
+
+    }
 }

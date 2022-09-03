@@ -251,6 +251,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ea7773c59f594787a324b8454aee278, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  model: {fileID: 919132148980303144}
+  speed: 40
 --- !u!1 &909414359
 GameObject:
   m_ObjectHideFlags: 0
@@ -473,6 +475,12 @@ GameObject:
 --- !u!1 &809913831959855669 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8578096385858059772, guid: a6ce28cf96ced4f6d9dc021772e9fb07,
+    type: 3}
+  m_PrefabInstance: {fileID: 8950589112222826441}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &919132148980303144 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8140125148727081697, guid: a6ce28cf96ced4f6d9dc021772e9fb07,
     type: 3}
   m_PrefabInstance: {fileID: 8950589112222826441}
   m_PrefabAsset: {fileID: 0}
