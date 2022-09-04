@@ -55,6 +55,7 @@ public class SelectionAndDisplayName : MonoBehaviour
                             {
                               //  Debug.Log("Nmae Of the Iteam : " + i.ChildModel.name);
                                 HighLightMode(i.ModelRenderer);
+                               // dropDownUI.DropDownButtonPressed(i.ChildModel.name);
                                 if (currentRendere != i.ModelRenderer)
                                 {
                                     CurrentMode();
@@ -184,6 +185,7 @@ public class SelectionAndDisplayName : MonoBehaviour
 
     public void CurrentMode()
     {
+        
         switch (modelController.CurrentMode)
         {
             case "XRay":

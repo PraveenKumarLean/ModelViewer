@@ -144,8 +144,8 @@ public class ModelController : MonoBehaviour
             XRayText.color = Color.green;
             ChangeMaterial(X_RayMaterial);
 
-            buttonClickDelegate?.Invoke();
-            buttonClickDelegate += X_RayMode;
+            //buttonClickDelegate?.Invoke();
+           // buttonClickDelegate += X_RayMode;
             CurrentMode = string.Empty;
             CurrentMode = "XRay";
         }
@@ -153,8 +153,8 @@ public class ModelController : MonoBehaviour
         {
             XRayText.color = Color.black;
             ChangeMaterial(DefaultMaterial);
-            buttonClickDelegate -= X_RayMode;
-            buttonClickDelegate?.Invoke();
+            //buttonClickDelegate -= X_RayMode;
+            //buttonClickDelegate?.Invoke();
             CurrentMode = string.Empty;
         }
 
