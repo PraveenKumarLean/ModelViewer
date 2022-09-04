@@ -12,13 +12,12 @@ public class SelectionAndDisplayName : MonoBehaviour
     [SerializeField]
     private ModelController modelController;
     [SerializeField]
-    private GameObject nameDisplayCanvas;
+    private Vector3 NameDisplayOffset;
+
+    [SerializeField]
     private Transform nameDisplay;
     private TextMeshProUGUI nameDisplayText;
-    [SerializeField]
-    private float NameDisplayOffset;
-    [SerializeField]
-    private float DisplatoName;
+    
 
     public float val;
 
@@ -28,24 +27,22 @@ public class SelectionAndDisplayName : MonoBehaviour
     void Start()
     {
         // LoadDataToModelInformation();
-        nameDisplay = nameDisplayCanvas.transform.GetChild(0);
+       
 
         nameDisplayText = nameDisplay.GetComponentInChildren<TextMeshProUGUI>();
     }
-    
+   
     // Update is called once per frame
     void Update()
     {
-        Vector3 NameDisplayPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        nameDisplay.transform.position = NameDisplayPosition* val;
+       
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        if (!ObjectIsSelected)
+        if (!DragIsSelected)
         {
             if (Physics.Raycast(ray, out hit, 100))
             {
                 var CurrentSelection = hit.transform;
-
                 if (currentName != CurrentSelection.name)
                 {
                     currentName = CurrentSelection.name;
@@ -62,6 +59,8 @@ public class SelectionAndDisplayName : MonoBehaviour
                                 {
                                     CurrentMode();
                                     currentRendere = i.ModelRenderer;
+                                    isObjectClicked = IsMaterialBacktoDefault = false;
+                                    nameDisplay.gameObject.SetActive(false);
                                 }
 
 
@@ -71,30 +70,52 @@ public class SelectionAndDisplayName : MonoBehaviour
                             }
                         }
                     }
+                    else
+                    {
+                        if (!isObjectClicked)
+                        CurrentMode();
+                    }
+                    
                 }
-
+               
 
             }
             else
             {
-                CurrentMode();
+                if (!IsMaterialBacktoDefault && !isObjectClicked)
+                {
+                   
+                    IsMaterialBacktoDefault = true;
+                   
+                    CurrentMode();
+                }
             }
         }
         
 
         if (Input.GetMouseButtonDown(0))
         {
-            if (currentRendere != null )
+            if (Physics.Raycast(ray, out hit, 100))
             {
-                HighLightMode(currentRendere);
-                nameDisplayCanvas.SetActive(true);
-                Debug.Log("Given" + currentRendere.transform.name);
-                zPosition = Camera.main.WorldToScreenPoint(currentRendere.transform.position).z;
-                positionOffset = currentRendere.transform.position - GetMouseAsWorldPoint();
-                ObjectIsSelected = true;
-                
-                nameDisplayText.text = currentRendere.name;
+                if (hit.transform.gameObject.layer == 0)
+                {
+                    CurrentMode();
+                    currentRendere = null;
+                    nameDisplay.gameObject.SetActive(false);
+                }
+                else if (currentRendere != null)
+                {
+                    HighLightMode(currentRendere);
+                    nameDisplay.gameObject.SetActive(true);
+                    zPosition = Camera.main.WorldToScreenPoint(currentRendere.transform.position).z;
+                    positionOffset = currentRendere.transform.position - GetMouseAsWorldPoint();
+                    DragIsSelected = true;
+                    isObjectClicked = true;
+                    //stopMovingClickedOutSide = true;
+                    nameDisplayText.text = currentRendere.name;
+                }
             }
+
            
             // NameDisplay.transform.SetParent(transform);
             // NameDisplay.transform.position = transform.position;
@@ -104,24 +125,28 @@ public class SelectionAndDisplayName : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
-            ObjectIsSelected = false;
-            nameDisplayCanvas.SetActive(false);
+            DragIsSelected = false;
         }
 
         if (Input.GetMouseButton(0))
         {
-            if (currentRendere != null)
+            if (currentRendere != null )
             {
-                Debug.Log("Moving" + currentRendere.name);
+               
                 currentRendere.transform.position = GetMouseAsWorldPoint() + positionOffset;
                 //nameDisplayCanvas.transform.SetParent(currentRendere.transform);
+                Vector3 positionss = Input.mousePosition + NameDisplayOffset;
+
+                nameDisplay.transform.position = positionss;
             }
-           
+            DragIsSelected = true;
         }
     }
 
-    bool ObjectIsSelected;
-
+    bool DragIsSelected;
+    bool isObjectClicked;
+    bool IsMaterialBacktoDefault;
+   // bool stopMovingClickedOutSide;
    // Vector2 nameDisplayStartPosition;
 
 
@@ -149,7 +174,7 @@ public class SelectionAndDisplayName : MonoBehaviour
     public Renderer currentRendere ;
 
 
-    void HighLightMode(Renderer currentChild)
+    public void HighLightMode(Renderer currentChild)
     {
 
         currentChild.material.color = highlightColour;
@@ -157,7 +182,7 @@ public class SelectionAndDisplayName : MonoBehaviour
     }
 
 
-    void CurrentMode()
+    public void CurrentMode()
     {
         switch (modelController.CurrentMode)
         {

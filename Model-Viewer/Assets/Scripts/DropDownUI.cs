@@ -15,6 +15,8 @@ public class DropDownUI : MonoBehaviour
     private Transform ContentContainer;
     [SerializeField]
     private GameObject m_ItemPrefab;
+    [SerializeField]
+    private SelectionAndDisplayName selectionAndDisplay;
 
    public List<MainChildSubChild> modelChildHolder = new List<MainChildSubChild>();
     private void Start()
@@ -43,8 +45,9 @@ public class DropDownUI : MonoBehaviour
     }
 
 
-   public List<string> MainChildNames = new List<string>();     // List of main Child Names 
-   public List<string> MainChildNamesSubcribe = new List<string>();
+    public List<string> MainChildNames = new List<string>();     // List of main Child Names 
+    public List<string> MainChildNamesSubcribe = new List<string>();
+    public List<string> subChildNamesSubcribe = new List<string>();
     public void DropDownButtonPressed(Button button)
     {
         if (MainChildNames.Exists(x => x == button.name))
@@ -62,6 +65,46 @@ public class DropDownUI : MonoBehaviour
                 MainChildSubchildState(true, button);
             }
            
+        }
+        else
+        {
+            if (subChildNamesSubcribe.Exists(x => x == button.name))
+            {
+                subChildNamesSubcribe.Remove(button.name);
+                HightLightUIselectionChild(false, button);
+            }
+            else
+            {
+                subChildNamesSubcribe.Add(button.name);
+                HightLightUIselectionChild(true, button);
+            }
+        }
+
+
+
+    }
+
+
+    void HightLightUIselectionChild(bool state, Button button)
+    {
+        foreach (var i in modelChildHolder)
+        {
+            if (i.ChildModel.name == button.name)
+            {
+                if (state)
+                {
+                    selectionAndDisplay.HighLightMode(i.ModelRenderer);
+                    i.SubChildTextUI.color = new Color32(156, 244, 255, 255);
+                }
+                else
+                {
+                   // Debug.Log("Function  called");
+                    selectionAndDisplay.currentRendere = i.ModelRenderer;
+                    selectionAndDisplay.CurrentMode();
+                    i.SubChildTextUI.color = new Color32(156, 244, 96, 255);
+
+                }
+            }
         }
     }
 
@@ -90,11 +133,13 @@ public class DropDownUI : MonoBehaviour
         item_go.SetActive(State);
         if (mainChildName != Name)
         {
-            modelChildHolder.Add(new MainChildSubChild { MainChildUI = mainChildName, SubChildUI = item_go.transform , ChildModel = ModelChild , ModelRenderer = ModelChild.GetComponent<Renderer>() });
+            _text.text = "  "+Name;
+            modelChildHolder.Add(new MainChildSubChild { MainChildUI = mainChildName, SubChildUI = item_go.transform , ChildModel = ModelChild , ModelRenderer = ModelChild.GetComponent<Renderer>() , SubChildTextUI  = _text });
             _text.color = new Color32(156,244,96,255);
         }
         else
         {
+            _text.text = Name;
             MainChildNames.Add(Name);
             _text.color = new Color32(255, 255, 255, 255);
         }
@@ -124,6 +169,7 @@ public class MainChildSubChild
 {
     public  string MainChildUI;
     public  Transform SubChildUI;
+    public TextMeshProUGUI SubChildTextUI;
     public Transform ChildModel;
     public Renderer ModelRenderer;
 }

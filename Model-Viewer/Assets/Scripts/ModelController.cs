@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class ModelController : MonoBehaviour
 {
@@ -197,6 +198,12 @@ public class ModelController : MonoBehaviour
             buttonClickDelegate -= ModelMode;
             buttonClickDelegate?.Invoke();
         }
+    }
+
+
+    public void ResetScene()
+    {
+        SceneManager.LoadScene(0);
     }
 
     public string CurrentMode = string.Empty;
