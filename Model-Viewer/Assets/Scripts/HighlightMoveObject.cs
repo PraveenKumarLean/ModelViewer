@@ -17,7 +17,7 @@ public class HighlightMoveObject : MonoBehaviour
         textBox = NameDisplay.GetComponentInChildren<Text>();
         NameDisplay.SetActive(false);
     }
-
+/*
     private void OnMouseEnter()
     {
         color = objectRenderer.material.color;
@@ -29,7 +29,7 @@ public class HighlightMoveObject : MonoBehaviour
         objectRenderer.material.color = color;
         
     }
-
+*/
 
     void OnMouseDown()
     {

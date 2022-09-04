@@ -129,7 +129,7 @@ public class ModelController : MonoBehaviour
 
         }
 
-        Debug.Log("Function Called");
+       
     }
     bool X_RayBool;
     void X_RayMode()
@@ -143,7 +143,8 @@ public class ModelController : MonoBehaviour
 
             buttonClickDelegate?.Invoke();
             buttonClickDelegate += X_RayMode;
-
+            CurrentMode = string.Empty;
+            CurrentMode = "XRay";
         }
         else
         {
@@ -151,6 +152,7 @@ public class ModelController : MonoBehaviour
             ChangeMaterial(DefaultMaterial);
             buttonClickDelegate -= X_RayMode;
             buttonClickDelegate?.Invoke();
+            CurrentMode = string.Empty;
         }
 
     }
@@ -195,7 +197,7 @@ public class ModelController : MonoBehaviour
         }
     }
 
-
+    public string CurrentMode = string.Empty;
 
     void ChangeMaterial(Material materialToChange)
     {

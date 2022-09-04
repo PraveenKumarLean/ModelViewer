@@ -16,7 +16,7 @@ public class DropDownUI : MonoBehaviour
     [SerializeField]
     private GameObject m_ItemPrefab;
 
-    List<MainChildSubChild> modelChildHolder = new List<MainChildSubChild>();
+   public List<MainChildSubChild> modelChildHolder = new List<MainChildSubChild>();
     private void Start()
     {
 
@@ -33,11 +33,11 @@ public class DropDownUI : MonoBehaviour
         for (var mainChildCount = 0; mainChildCount < Model.transform.childCount; mainChildCount++)
         {
             Transform _mainChild = Model.transform.GetChild(mainChildCount);
-            ButtonInstantiate(_mainChild.name, true, _mainChild.name);
+            ButtonInstantiate(_mainChild.name, true, _mainChild.name, _mainChild);
             for (var subChildCount = 0; subChildCount < _mainChild.transform.childCount; subChildCount++)
             {
-                Transform subChild = _mainChild.transform.GetChild(subChildCount);
-                ButtonInstantiate(subChild.name, false, _mainChild.name);
+                Transform _subChild = _mainChild.transform.GetChild(subChildCount);
+                ButtonInstantiate(_subChild.name, false, _mainChild.name ,_subChild);
 
             }
         }
@@ -51,6 +51,7 @@ public class DropDownUI : MonoBehaviour
         if (MainChildNames.Exists(x => x == button.name))
         {
             
+
             if (MainChildNamesSubcribe.Exists(x => x == button.name))
             {
                 MainChildNamesSubcribe.Remove(button.name);
@@ -69,14 +70,14 @@ public class DropDownUI : MonoBehaviour
     {
         foreach (var i in modelChildHolder)
         {
-            if (i.MainChild == button.name)
+            if (i.MainChildUI == button.name)
             {
-                i.SubChild.gameObject.SetActive(state);
+                i.SubChildUI.gameObject.SetActive(state);
             }
         }
     }
 
-    void ButtonInstantiate(string Name, bool State, string mainChildName)
+    void ButtonInstantiate(string Name, bool State, string mainChildName, Transform ModelChild)
     {
         var item_go = Instantiate(m_ItemPrefab);
         // do something with the instantiated item -- for instance
@@ -90,7 +91,7 @@ public class DropDownUI : MonoBehaviour
         item_go.SetActive(State);
         if (mainChildName != Name)
         {
-            modelChildHolder.Add(new MainChildSubChild { MainChild = mainChildName, SubChild = item_go.transform });
+            modelChildHolder.Add(new MainChildSubChild { MainChildUI = mainChildName, SubChildUI = item_go.transform , ChildModel = ModelChild , ModelRenderer = ModelChild.GetComponent<Renderer>() });
             _text.color = new Color32(156,244,96,255);
         }
         else
@@ -120,10 +121,11 @@ public class DropDownUI : MonoBehaviour
 
 }
 
-class MainChildSubChild
+public class MainChildSubChild
 {
-  public  string MainChild;
-  public  Transform SubChild;
-
+    public  string MainChildUI;
+    public  Transform SubChildUI;
+    public Transform ChildModel;
+    public Renderer ModelRenderer;
 }
 
