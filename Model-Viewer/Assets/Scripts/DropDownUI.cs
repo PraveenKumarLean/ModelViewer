@@ -10,7 +10,7 @@ public class DropDownUI : MonoBehaviour
     [SerializeField]
     private GameObject Model;
     
-    public RectTransform ScrollViewRect;
+    //public RectTransform ScrollViewRect;
     [SerializeField]
     private Transform ContentContainer;
     [SerializeField]
@@ -23,8 +23,7 @@ public class DropDownUI : MonoBehaviour
         GetAllChildInformation();
 
         // To get Default Rect 
-        rectPosition = ScrollViewRect.localPosition;
-        rectHeightWidth = ScrollViewRect.sizeDelta;
+       
 
     }
 
@@ -62,7 +61,7 @@ public class DropDownUI : MonoBehaviour
                 MainChildNamesSubcribe.Add(button.name);
                 MainChildSubchildState(true, button);
             }
-            IncreaseScrollViewRect();
+           
         }
     }
 
@@ -103,21 +102,21 @@ public class DropDownUI : MonoBehaviour
     }
 
 
-    Vector2 rectHeightWidth;
-    Vector3 rectPosition;
-    void IncreaseScrollViewRect()
-    {
-        if(MainChildNamesSubcribe.Count>0)
-        {
-            ScrollViewRect.sizeDelta = new Vector2( rectHeightWidth.x, 960);
-            ScrollViewRect.localPosition = new Vector3(rectPosition.x, -49, rectPosition.z);
-        }
-        else
-        {
-            ScrollViewRect.sizeDelta = rectHeightWidth;
-            ScrollViewRect.localPosition = rectPosition;
-        }
-    }
+    //Vector2 rectHeightWidth;
+    //Vector3 rectPosition;
+    //void IncreaseScrollViewRect()
+    //{
+    //    if(MainChildNamesSubcribe.Count>0)
+    //    {
+    //        ScrollViewRect.sizeDelta = new Vector2( rectHeightWidth.x, 960);
+    //        ScrollViewRect.localPosition = new Vector3(rectPosition.x, -49, rectPosition.z);
+    //    }
+    //    else
+    //    {
+    //        ScrollViewRect.sizeDelta = rectHeightWidth;
+    //        ScrollViewRect.localPosition = rectPosition;
+    //    }
+    //}
 
 }
 

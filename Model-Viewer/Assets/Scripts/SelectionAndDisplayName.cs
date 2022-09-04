@@ -19,7 +19,9 @@ public class SelectionAndDisplayName : MonoBehaviour
     private float NameDisplayOffset;
     [SerializeField]
     private float DisplatoName;
-    
+
+    public float val;
+
 
     string currentName= string.Empty;
     // Start is called before the first frame update
@@ -30,12 +32,14 @@ public class SelectionAndDisplayName : MonoBehaviour
 
         nameDisplayText = nameDisplay.GetComponentInChildren<TextMeshProUGUI>();
     }
-    RaycastHit hit;
+    
     // Update is called once per frame
     void Update()
     {
+        Vector3 NameDisplayPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        nameDisplay.transform.position = NameDisplayPosition* val;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-       
+        RaycastHit hit;
         if (!ObjectIsSelected)
         {
             if (Physics.Raycast(ray, out hit, 100))
@@ -52,7 +56,7 @@ public class SelectionAndDisplayName : MonoBehaviour
                         {
                             if (i.ChildModel.name == CurrentSelection.name)
                             {
-                                Debug.Log("Nmae Of the Iteam : " + i.ChildModel.name);
+                              //  Debug.Log("Nmae Of the Iteam : " + i.ChildModel.name);
                                 HighLightMode(i.ModelRenderer);
                                 if (currentRendere != i.ModelRenderer)
                                 {
@@ -111,14 +115,6 @@ public class SelectionAndDisplayName : MonoBehaviour
                 Debug.Log("Moving" + currentRendere.name);
                 currentRendere.transform.position = GetMouseAsWorldPoint() + positionOffset;
                 //nameDisplayCanvas.transform.SetParent(currentRendere.transform);
-                if (Physics.Raycast(ray, out RaycastHit hitw))
-                {
-                    Vector3 NameDisplayPosition = hitw.point;
-                    NameDisplayPosition.z = DisplatoName;
-                    nameDisplay.transform.position = new Vector3(NameDisplayPosition.x +  NameDisplayOffset, NameDisplayPosition.y, 0);
-                    nameDisplay.transform.rotation = Quaternion.Euler(0, 0, 0);
-
-                }
             }
            
         }

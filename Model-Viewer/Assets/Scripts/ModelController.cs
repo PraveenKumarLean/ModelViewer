@@ -21,7 +21,7 @@ public class ModelController : MonoBehaviour
     [SerializeField]
     private Material X_RayMaterial;
     [SerializeField]
-    private DropDownUI dropDownUI;
+    private RectTransform ScrollViewRect;
     private Vector3 positionOffset;
     private float zPosition;
 
@@ -32,6 +32,8 @@ public class ModelController : MonoBehaviour
 
     void Update()
     {
+
+       // Application.targetFrameRate = 30;
         if(Input.GetMouseButtonDown(2))  
         {
             zPosition = Camera.main.WorldToScreenPoint(model.transform.position).z;
@@ -183,14 +185,14 @@ public class ModelController : MonoBehaviour
         ModelBool = !ModelBool;
         if (ModelBool)
         {
-            dropDownUI.ScrollViewRect.gameObject.SetActive(true);
+            ScrollViewRect.gameObject.SetActive(true);
             ModelText.color = Color.green;
             buttonClickDelegate?.Invoke();
             buttonClickDelegate += ModelMode;
         }
         else
         {
-            dropDownUI.ScrollViewRect.gameObject.SetActive(false);
+            ScrollViewRect.gameObject.SetActive(false);
             ModelText.color = Color.black;
             buttonClickDelegate -= ModelMode;
             buttonClickDelegate?.Invoke();
