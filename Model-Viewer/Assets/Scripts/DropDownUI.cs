@@ -28,7 +28,8 @@ public class DropDownUI : MonoBehaviour
        
 
     }
-
+    
+    
     void GetAllChildInformation()
     {
         for (var mainChildCount = 0; mainChildCount < Model.transform.childCount; mainChildCount++)
@@ -47,12 +48,13 @@ public class DropDownUI : MonoBehaviour
 
     public List<string> MainChildNames = new List<string>();     // List of main Child Names 
     public List<string> MainChildNamesSubcribe = new List<string>();
-    public List<string> subChildNamesSubcribe = new List<string>();
+
     public void DropDownButtonPressed(Button button)
     {
+        Debug.Log("Function call unnessary");
+        //var _buttonName = button.name;
         if (MainChildNames.Exists(x => x == button.name))
         {
-            
 
             if (MainChildNamesSubcribe.Exists(x => x == button.name))
             {
@@ -68,45 +70,23 @@ public class DropDownUI : MonoBehaviour
         }
         else
         {
-            if (subChildNamesSubcribe.Exists(x => x == button.name))
-            {
-                subChildNamesSubcribe.Remove(button.name);
-                HightLightUIselectionChild(false, button);
-            }
-            else
-            {
-                subChildNamesSubcribe.Add(button.name);
-                HightLightUIselectionChild(true, button);
-            }
+            selectionAndDisplay.SubchildSelectedFromUI(button.name);
+
+
+            //foreach (var i in modelChildHolder)
+            //{
+            //    if(i.ModelRenderer.name == button.name)
+            //    {
+            //       // selectionAndDisplay.currentRendere = i.ModelRenderer;
+            //    }
+            //}
         }
 
 
 
     }
 
-
-    void HightLightUIselectionChild(bool state, Button button)
-    {
-        foreach (var i in modelChildHolder)
-        {
-            if (i.ChildModel.name == button.name)
-            {
-                if (state)
-                {
-                    selectionAndDisplay.HighLightMode(i.ModelRenderer);
-                    i.SubChildTextUI.color = new Color32(156, 244, 255, 255);
-                }
-                else
-                {
-                   // Debug.Log("Function  called");
-                    selectionAndDisplay.currentRendere = i.ModelRenderer;
-                    selectionAndDisplay.CurrentMode();
-                    i.SubChildTextUI.color = new Color32(156, 244, 96, 255);
-
-                }
-            }
-        }
-    }
+   
 
     void MainChildSubchildState(bool state, Button button)
     {
