@@ -23,8 +23,6 @@ public class DropDownUI : MonoBehaviour
     {
 
         GetAllChildInformation();
-
-        // To get Default Rect 
        
 
     }
@@ -71,18 +69,7 @@ public class DropDownUI : MonoBehaviour
         else
         {
             selectionAndDisplay.SubchildSelectedFromUI(button.name);
-
-
-            //foreach (var i in modelChildHolder)
-            //{
-            //    if(i.ModelRenderer.name == button.name)
-            //    {
-            //       // selectionAndDisplay.currentRendere = i.ModelRenderer;
-            //    }
-            //}
         }
-
-
 
     }
 
@@ -127,30 +114,6 @@ public class DropDownUI : MonoBehaviour
     }
 
 
-    //Vector2 rectHeightWidth;
-    //Vector3 rectPosition;
-    //void IncreaseScrollViewRect()
-    //{
-    //    if(MainChildNamesSubcribe.Count>0)
-    //    {
-    //        ScrollViewRect.sizeDelta = new Vector2( rectHeightWidth.x, 960);
-    //        ScrollViewRect.localPosition = new Vector3(rectPosition.x, -49, rectPosition.z);
-    //    }
-    //    else
-    //    {
-    //        ScrollViewRect.sizeDelta = rectHeightWidth;
-    //        ScrollViewRect.localPosition = rectPosition;
-    //    }
-    //}
 
-}
-
-public class MainChildSubChild
-{
-    public  string MainChildUI;
-    public  Transform SubChildUI;
-    public TextMeshProUGUI SubChildTextUI;
-    public Transform ChildModel;
-    public Renderer ModelRenderer;
 }
 

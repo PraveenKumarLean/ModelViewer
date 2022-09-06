@@ -18,16 +18,10 @@ public class SelectionAndDisplayName : MonoBehaviour
     [SerializeField]
     private Transform nameDisplay;
     private TextMeshProUGUI nameDisplayText;
-    
-    
     public float val;
-
-
-    string currentName= string.Empty;
-    // Start is called before the first frame update
+    public string currentName= string.Empty;
     void Start()
     {
-        // LoadDataToModelInformation();
        
 
         nameDisplayText = nameDisplay.GetComponentInChildren<TextMeshProUGUI>();
@@ -72,7 +66,6 @@ public class SelectionAndDisplayName : MonoBehaviour
             {
 
                 currentRendere.transform.position = GetMouseAsWorldPoint() + positionOffset;
-                //nameDisplayCanvas.transform.SetParent(currentRendere.transform);
                 Vector3 positionss = Input.mousePosition + NameDisplayOffset;
 
                 nameDisplay.transform.position = positionss;
@@ -167,9 +160,8 @@ public class SelectionAndDisplayName : MonoBehaviour
     bool DragIsSelected;
     bool isObjectClicked;
     bool IsMaterialBacktoDefault;
-   // bool stopMovingClickedOutSide;
-   // Vector2 nameDisplayStartPosition;
 
+    #region Color Change
 
     [SerializeField]
     private Color32 defaultColour = new Color32(195, 177, 177, 255);
@@ -182,16 +174,9 @@ public class SelectionAndDisplayName : MonoBehaviour
    public  Renderer currentRendere ;
 
     List<Renderer> currentHiglight = new List<Renderer>();
-    void HighLightMode(Renderer currentChild)
-    {
-
-        currentChild.material.color = highlightColour;
-
-        currentHiglight.Add(currentChild);
-    }
 
 
-     void CurrentMode()
+    void CurrentMode()
     {
         
         switch (modelController.CurrentMode)
@@ -205,6 +190,13 @@ public class SelectionAndDisplayName : MonoBehaviour
                 break;
                
         }
+    }
+    void HighLightMode(Renderer currentChild)
+    {
+
+        currentChild.material.color = highlightColour;
+
+        currentHiglight.Add(currentChild);
     }
 
     void defaultmode(Renderer currentChild)
@@ -235,42 +227,23 @@ public class SelectionAndDisplayName : MonoBehaviour
 
     }
 
+    #endregion
 
-
-
-
+    #region SubChild Movement
 
     private Vector3 positionOffset;
-
-
-
     private float zPosition;
-
-
-
-
-
     private Vector3 GetMouseAsWorldPoint()
-    {
-
+    { 
         // Pixel coordinates of mouse (x,y)
-
         Vector3 mousePoint = Input.mousePosition;
-
-
-
         // z coordinate of game object on screen
-
         mousePoint.z = zPosition;
-
-
-
         // Convert it to world points
-
         return Camera.main.ScreenToWorldPoint(mousePoint);
-
     }
 
+    #endregion
 
     void ResetsubChildNamesSubcribe()
     {
@@ -287,17 +260,6 @@ public class SelectionAndDisplayName : MonoBehaviour
     }
 
 
-
-    //Renderer deselectModelFromUI(string buttonName)
-    //{
-    //    foreach(var i in dropDownUI.modelChildHolder)
-    //    {
-    //        if (i.ChildModel.name == buttonName)
-    //        {
-    //            return i.ModelRenderer;
-    //        }
-    //    }
-    //}
 
     public  List<string> subChildNamesSubcribe = new List<string>();
 
@@ -329,24 +291,21 @@ public class SelectionAndDisplayName : MonoBehaviour
                 }
                 else if(!state)
                 {
-                    Debug.Log("Function  called");
-                    // currentRendere = i.ModelRenderer;
-                    // CurrentMode();
-                    i.ModelRenderer.material.color = defaultColour;
+                    if(modelController.CurrentMode == "XRay")
+                    {
+                        i.ModelRenderer.material.color = xRayColour;
+                    }
+                    else
+                    {
+                        i.ModelRenderer.material.color = defaultColour;
+                    }
+                   
                     i.SubChildTextUI.color = new Color32(156, 244, 96, 255);
 
                 }
             }
         }
     }
-
-
-
-
-
-
-
-
 
 
 }

@@ -14,9 +14,6 @@ public class ModelController : MonoBehaviour
     [SerializeField]
     [Range(0,1)]
     private float speed;
-    [Tooltip("Model child Parts")]
-    [SerializeField]
-    private Renderer[] childObjects;
     [SerializeField]
     private Material DefaultMaterial;
     [SerializeField]
@@ -25,35 +22,35 @@ public class ModelController : MonoBehaviour
     private RectTransform ScrollViewRect;
     private Vector3 positionOffset;
     private float zPosition;
+    [SerializeField]
+    private DropDownUI dropDownUI;
 
-    private void Start()
-    {
-        
-    }
+    Vector3 previousPose;
+    Vector3 currentPose;
 
     void Update()
     {
+        // Application.targetFrameRate = 30;
+        MoveWholeModel();
 
-       // Application.targetFrameRate = 30;
-        if(Input.GetMouseButtonDown(2))  
+        RoateModel();
+    }
+
+    private void MoveWholeModel()
+    {
+        if (Input.GetMouseButtonDown(2))
         {
             zPosition = Camera.main.WorldToScreenPoint(model.transform.position).z;
             positionOffset = model.transform.position - GetMouseAsWorldPoint();
         }
-        if(Input.GetMouseButton(2))
+        if (Input.GetMouseButton(2))
         {
             model.transform.position = GetMouseAsWorldPoint() + positionOffset;
-           
+
         }
-
-        RoateModel();
-
-
-        
     }
 
 
-   
 
     private Vector3 GetMouseAsWorldPoint()
     {
@@ -76,8 +73,6 @@ public class ModelController : MonoBehaviour
 
     }
 
-    Vector3 previousPose;
-    Vector3 currentPose;
 
     void RoateModel()
     {
@@ -102,13 +97,16 @@ public class ModelController : MonoBehaviour
         previousPose = Input.mousePosition;
     }
 
+    #region UIButton 
+
     [SerializeField]
     private TextMeshProUGUI XRayText;
     [SerializeField]
     private TextMeshProUGUI TransText;
     [SerializeField]
     private TextMeshProUGUI ModelText;
-
+    public delegate void OnButtonClickDelegate();
+    private event OnButtonClickDelegate buttonClickDelegate;
     public void  OnButtonPressed(string ButtonName)
     {
        // X_RayMode(false);
@@ -144,18 +142,14 @@ public class ModelController : MonoBehaviour
             XRayText.color = Color.green;
             ChangeMaterial(X_RayMaterial);
 
-            //buttonClickDelegate?.Invoke();
-           // buttonClickDelegate += X_RayMode;
-            CurrentMode = string.Empty;
+          
             CurrentMode = "XRay";
         }
         else
         {
             XRayText.color = Color.black;
             ChangeMaterial(DefaultMaterial);
-            //buttonClickDelegate -= X_RayMode;
-            //buttonClickDelegate?.Invoke();
-            CurrentMode = string.Empty;
+            CurrentMode = "Transparent";
         }
 
     }
@@ -210,18 +204,20 @@ public class ModelController : MonoBehaviour
 
     void ChangeMaterial(Material materialToChange)
     {
-        foreach (var i in childObjects)
+
+        foreach (var i in dropDownUI.modelChildHolder)
         {
-            i.material = materialToChange;
+            if (i.ModelRenderer)
+            {
+                 i.ModelRenderer.material = materialToChange;
+
+            }
         }
     }
 
 
+    #endregion
 
 
-    public delegate void OnButtonClickDelegate();
-    private event OnButtonClickDelegate buttonClickDelegate;
-
-    
 
 }
