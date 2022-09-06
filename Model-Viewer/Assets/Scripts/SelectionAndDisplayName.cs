@@ -6,8 +6,8 @@ using System.Collections.Generic;
 public class SelectionAndDisplayName : MonoBehaviour
 {
     
-    [SerializeField]
-    private GameObject model;
+    //[SerializeField]
+   // private GameObject model;
     [SerializeField]
     private DropDownUI dropDownUI;
     [SerializeField]
@@ -22,8 +22,6 @@ public class SelectionAndDisplayName : MonoBehaviour
     public string currentName= string.Empty;
     void Start()
     {
-       
-
         nameDisplayText = nameDisplay.GetComponentInChildren<TextMeshProUGUI>();
     }
    
@@ -73,10 +71,6 @@ public class SelectionAndDisplayName : MonoBehaviour
             DragIsSelected = true;
         }
 
-
-
-
-        
     }
 
     private void OnMouseButtonDown(Ray ray)
