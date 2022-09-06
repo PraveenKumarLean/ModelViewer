@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class ModelHighlightAndMove : MonoBehaviour
 {
@@ -12,6 +13,21 @@ public class ModelHighlightAndMove : MonoBehaviour
     [SerializeField]
     private ModelController modelController;
     private bool MouseClicked;
+
+
+    [SerializeField]
+    private Vector3 NameDisplayOffset;
+
+    [SerializeField]
+    private Transform nameDisplay;
+    private TextMeshProUGUI nameDisplayText;
+
+
+    private void Start()
+    {
+        nameDisplayText = nameDisplay.GetComponentInChildren<TextMeshProUGUI>();
+    }
+
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -35,9 +51,8 @@ public class ModelHighlightAndMove : MonoBehaviour
             if (ObjectSelectedToMove != null)
             {
                 ObjectSelectedToMove.transform.position = GetMouseAsWorldPoint() + positionOffset;
-                //  Vector3 positionss = Input.mousePosition + NameDisplayOffset;
-
-                //  nameDisplay.transform.position = positionss;
+                Vector3 positionss = Input.mousePosition + NameDisplayOffset;
+                nameDisplay.transform.position = positionss;
             }
         }
        
@@ -92,7 +107,8 @@ public class ModelHighlightAndMove : MonoBehaviour
                 if(IsStopHighLight)
                 {
                     IsStopHighLight = false;
-                    if (!SelectedChild.Exists(x => x == currentRendere))
+                   
+                    if (!SelectedChild.Exists(x => x == currentRendere) && currentRendere)
                     {
                         Debug.Log("Call 2   : "   + currentRendere.name + "   " + hit.transform.name);
                         
@@ -124,7 +140,6 @@ public class ModelHighlightAndMove : MonoBehaviour
                     {
                         if (i.ChildModel.name == CurrentSelection.name)
                         {
-
                             if( !SelectedChild.Exists(x => x.name == CurrentSelection.name))
                             {
                                 ResetAllSelectedList();
@@ -132,13 +147,13 @@ public class ModelHighlightAndMove : MonoBehaviour
                                 ObjectSelectedToMove = i.ModelRenderer;
                                 SelectedChild.Add(ObjectSelectedToMove);
                                 SelectionHighLight(ObjectSelectedToMove);
-                                DragPositionOffset(ObjectSelectedToMove);
+                                
                             }
                             else
                             {
                                 ObjectSelectedToMove = i.ModelRenderer;
                             }
-                          
+                            DragPositionOffset(ObjectSelectedToMove);
                         }
                     }
 
@@ -147,6 +162,7 @@ public class ModelHighlightAndMove : MonoBehaviour
                 {
                     ResetAllSelectedList();
                     SelectedChild.Clear();
+                    nameDisplay.gameObject.SetActive(false);
                 }
                
 
@@ -259,11 +275,18 @@ public class ModelHighlightAndMove : MonoBehaviour
 
     private void DragPositionOffset(Renderer currentRendere)
     {
-       // nameDisplay.gameObject.SetActive(true);
+        nameDisplay.gameObject.SetActive(true);
+        nameDisplayText.text = currentRendere.name;
+        // nameDisplay.gameObject.SetActive(true);
         zPosition = Camera.main.WorldToScreenPoint(currentRendere.transform.position).z;
         positionOffset = currentRendere.transform.position - GetMouseAsWorldPoint();
     }
 
     #endregion
+
+
+
+
+
 
 }

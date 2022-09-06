@@ -811,6 +811,8 @@ MonoBehaviour:
   currenelectionName: 
   dropDownUI: {fileID: 2122689176}
   modelController: {fileID: 771104811}
+  NameDisplayOffset: {x: 100, y: 0, z: 0}
+  nameDisplay: {fileID: 214936063}
   SelectedChild: []
   defaultColour:
     serializedVersion: 2
