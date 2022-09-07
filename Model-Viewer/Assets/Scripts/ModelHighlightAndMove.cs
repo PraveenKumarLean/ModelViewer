@@ -89,7 +89,7 @@ public class ModelHighlightAndMove : MonoBehaviour
                             {
                                 if (!SelectedChild.Exists(x => x == currentRendere))
                                 {
-                                    Debug.Log(i.ModelRenderer);
+                                  //  Debug.Log(i.ModelRenderer);
                                     RestColour(currentRendere);
                                     currentRendere = i.ModelRenderer;
                                 }
@@ -112,7 +112,7 @@ public class ModelHighlightAndMove : MonoBehaviour
                    
                     if (!SelectedChild.Exists(x => x == currentRendere) && currentRendere)
                     {
-                        Debug.Log("Call 2   : "   + currentRendere.name + "   " + hit.transform.name);
+                       // Debug.Log("Call 2   : "   + currentRendere.name + "   " + hit.transform.name);
                         
                         RestColour(currentRendere);
                     }
@@ -226,12 +226,13 @@ public class ModelHighlightAndMove : MonoBehaviour
 
     void ResetAllSelectedList()
     {
-        foreach (var i in SelectedChild)
+        int index = SelectedChild.Count;
+        for (var i = 0; i < index; i++)
         {
-            RestColour(i);
-            SubchildSelectedFromUI(i.name);
+            RestColour(SelectedChild[0]);
+            SubchildSelectedFromUI(SelectedChild[0].name);
         }
-
+       
     }
 
     void RestColour(Renderer currentRendere)
@@ -302,10 +303,16 @@ public class ModelHighlightAndMove : MonoBehaviour
     }
 
     #endregion
-
-    void restAllselection()
+    Renderer NameToRender(string Name)
     {
-
+        foreach (var i in dropDownUI.modelChildHolder)
+        {
+            if (i.ChildModel.name == Name)
+            {
+                return i.ModelRenderer;
+            }
+        }
+        return null;
     }
 
     public List<string> subChildNamesSubcribe = new List<string>();
@@ -315,12 +322,20 @@ public class ModelHighlightAndMove : MonoBehaviour
         if (subChildNamesSubcribe.Exists(x => x == buttonName))
         {
             // CurrentMode();
+            Debug.Log("lusuuuuuuu");
             HightLightUIselectionChild(false, buttonName);
-           
+            if (SelectedChild.Exists(x => x == NameToRender(buttonName)))
+            {
+               
+                SelectedChild.Remove(NameToRender(buttonName));
+
+            }
+
+
         }
         else
         {
-           
+
             HightLightUIselectionChild(true, buttonName);
         }
     }

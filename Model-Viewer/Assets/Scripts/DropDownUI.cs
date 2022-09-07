@@ -7,8 +7,9 @@ using System.Linq;
 
 public class DropDownUI : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject Model;
+    [Tooltip("Model Need to move and rotate")]
+    // [SerializeField]
+    public GameObject Model;
     
     //public RectTransform ScrollViewRect;
     [SerializeField]

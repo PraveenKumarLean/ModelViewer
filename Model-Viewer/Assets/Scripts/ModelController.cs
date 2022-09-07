@@ -7,9 +7,9 @@ using UnityEngine.SceneManagement;
 
 public class ModelController : MonoBehaviour
 {
-    [Tooltip("Model Need to move and rotate")]
-    [SerializeField]
-    private GameObject model;
+    
+   // [SerializeField]
+   // private GameObject dropDownUIModel;
     [Tooltip("Mouse Drag to Object Rotation Speed")]
     [SerializeField]
     [Range(0,1)]
@@ -44,12 +44,12 @@ public class ModelController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(2))
         {
-            zPosition = Camera.main.WorldToScreenPoint(model.transform.position).z;
-            positionOffset = model.transform.position - GetMouseAsWorldPoint();
+            zPosition = Camera.main.WorldToScreenPoint(dropDownUI.Model.transform.position).z;
+            positionOffset = dropDownUI.Model.transform.position - GetMouseAsWorldPoint();
         }
         if (Input.GetMouseButton(2))
         {
-            model.transform.position = GetMouseAsWorldPoint() + positionOffset;
+            dropDownUI.Model.transform.position = GetMouseAsWorldPoint() + positionOffset;
 
         }
     }
@@ -84,17 +84,17 @@ public class ModelController : MonoBehaviour
         {
 
             currentPose = Input.mousePosition - previousPose;
-            if (Vector3.Dot(model.transform.up, Vector3.up) >= 0)
+            if (Vector3.Dot(dropDownUI.Model.transform.up, Vector3.up) >= 0)
             {
 
-                model.transform.Rotate(model.transform.up , -Vector3.Dot(currentPose, Camera.main.transform.right) * speed, Space.World) ;
+                dropDownUI.Model.transform.Rotate(dropDownUI.Model.transform.up , -Vector3.Dot(currentPose, Camera.main.transform.right) * speed, Space.World) ;
             }
             else
             {
-                model.transform.Rotate(model.transform.up, Vector3.Dot(currentPose, Camera.main.transform.right) * speed, Space.World);
+                dropDownUI.Model.transform.Rotate(dropDownUI.Model.transform.up, Vector3.Dot(currentPose, Camera.main.transform.right) * speed, Space.World);
             }
 
-            model.transform.Rotate(Camera.main.transform.right, Vector3.Dot(currentPose, Camera.main.transform.up) * speed, Space.World);
+            dropDownUI.Model.transform.Rotate(Camera.main.transform.right, Vector3.Dot(currentPose, Camera.main.transform.up) * speed, Space.World);
         }
 
 
