@@ -1501,6 +1501,7 @@ MonoBehaviour:
   X_RayMaterial: {fileID: 2100000, guid: 70c53315df4af4ed496bf01fc0bbf347, type: 2}
   HighLightMaterial: {fileID: 2100000, guid: c7c4f7e4950a2433c90fde6d2e65024b, type: 2}
   ScrollViewRect: {fileID: 1360459177}
+  ScrollViewRectIgnoreRayBG: {fileID: 2096905810}
   dropDownUI: {fileID: 2122689176}
   XRayText: {fileID: 1346962387}
   TransText: {fileID: 1546987328}
@@ -3192,7 +3193,7 @@ GameObject:
   - component: {fileID: 2096905813}
   - component: {fileID: 2096905812}
   m_Layer: 5
-  m_Name: 'Stop Ray While UI '
+  m_Name: ScrollViewRectIgnoreRayBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3215,7 +3216,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.023003101, y: 0.39237186}
+  m_AnchoredPosition: {x: -2.1, y: 0.39237186}
   m_SizeDelta: {x: 502.0981, y: 975.09}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!64 &2096905812

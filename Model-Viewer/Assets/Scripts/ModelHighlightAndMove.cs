@@ -151,7 +151,7 @@ public class ModelHighlightAndMove : MonoBehaviour
                                      HightLightUIselectionChild(false, ObjectSelectedToMove.name);
                                 }
                                 ObjectSelectedToMove = i.ModelRenderer;
-                                SelectedChild.Add(ObjectSelectedToMove);
+                                //SelectedChild.Add(ObjectSelectedToMove);
                                 // SelectionHighLight(ObjectSelectedToMove);
                                 HightLightUIselectionChild(true, ObjectSelectedToMove.name);
 
@@ -229,7 +229,7 @@ public class ModelHighlightAndMove : MonoBehaviour
         foreach (var i in SelectedChild)
         {
             RestColour(i);
-            Debug.Log(i.name);
+            SubchildSelectedFromUI(i.name);
         }
 
     }
@@ -303,7 +303,10 @@ public class ModelHighlightAndMove : MonoBehaviour
 
     #endregion
 
+    void restAllselection()
+    {
 
+    }
 
     public List<string> subChildNamesSubcribe = new List<string>();
 
@@ -333,8 +336,10 @@ public class ModelHighlightAndMove : MonoBehaviour
                     if (!subChildNamesSubcribe.Exists(x => x == buttonName))
                     {
                         subChildNamesSubcribe.Add(buttonName);
-                      //  SelectedChild.Add(ObjectSelectedToMove);
+                        //  SelectedChild.Add(ObjectSelectedToMove);
                     }
+
+                    SelectedChild.Add(i.ModelRenderer);
                     SelectionHighLight(i.ModelRenderer);
                     i.SubChildTextUI.color = new Color32(156, 244, 255, 255);
                 }
@@ -346,7 +351,7 @@ public class ModelHighlightAndMove : MonoBehaviour
                        
                     }
                     RestColour(i.ModelRenderer);
-                     i.SubChildTextUI.color = new Color32(156, 244, 96, 255);
+                    i.SubChildTextUI.color = new Color32(156, 244, 96, 255);
 
                 }
             }
