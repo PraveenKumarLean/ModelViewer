@@ -12,7 +12,7 @@ public class ModelHighlightAndMove : MonoBehaviour
     private DropDownUI dropDownUI;
     [SerializeField]
     private ModelController modelController;
-    private bool MouseClicked;
+    private bool MouseClicked = true;
 
 
     [SerializeField]
@@ -26,7 +26,9 @@ public class ModelHighlightAndMove : MonoBehaviour
     private void Start()
     {
         nameDisplayText = nameDisplay.GetComponentInChildren<TextMeshProUGUI>();
+        AssignMaterialColour();
     }
+
 
     void Update()
     {
@@ -144,10 +146,17 @@ public class ModelHighlightAndMove : MonoBehaviour
                             {
                                 ResetAllSelectedList();
                                 SelectedChild.Clear();
+                                if (ObjectSelectedToMove)
+                                {
+                                     HightLightUIselectionChild(false, ObjectSelectedToMove.name);
+                                }
                                 ObjectSelectedToMove = i.ModelRenderer;
                                 SelectedChild.Add(ObjectSelectedToMove);
-                                SelectionHighLight(ObjectSelectedToMove);
-                                
+                                // SelectionHighLight(ObjectSelectedToMove);
+                                HightLightUIselectionChild(true, ObjectSelectedToMove.name);
+
+
+
                             }
                             else
                             {
@@ -174,12 +183,13 @@ public class ModelHighlightAndMove : MonoBehaviour
 
 
 
+
     #region Color Change
     
     [SerializeField]
     private Color32 defaultColour = new Color32(195, 177, 177, 255);
     [SerializeField]
-    private Color32 xRayColour = new Color32(255, 255, 255, 16);
+    private Color32 xRayColour = new Color32(255, 255, 255, 100);
     [SerializeField]
     private Color32 highlightColour = new Color32(255, 255, 120, 40);
     [SerializeField]
@@ -189,9 +199,18 @@ public class ModelHighlightAndMove : MonoBehaviour
     public Renderer currentRendere;
 
     List<Renderer> currentHiglight = new List<Renderer>();
+
+
+    private void AssignMaterialColour()
+    {
+        modelController.HighLightMaterial.color = highlightColour;
+        modelController.DefaultMaterial.color = defaultColour;
+        modelController.X_RayMaterial.color = xRayColour;
+    }
+
     void MouseHoverHighLight(Renderer currentChild)
     {
-
+        currentChild.material = modelController.HighLightMaterial;
         currentChild.material.color = highlightColour;
 
        // currentHiglight.Add(currentChild);
@@ -199,7 +218,7 @@ public class ModelHighlightAndMove : MonoBehaviour
 
     void SelectionHighLight(Renderer currentChild)
     {
-
+        currentChild.material = modelController.DefaultMaterial;
         currentChild.material.color = selectionColour;
 
         currentHiglight.Add(currentChild);
@@ -233,7 +252,7 @@ public class ModelHighlightAndMove : MonoBehaviour
     {
         if (currentChild != null)
         {
-            currentChild.material.color = defaultColour;
+            currentChild.material = modelController.DefaultMaterial;
 
            //currentRendere = null;
             currenHighlightName = string.Empty;
@@ -244,7 +263,7 @@ public class ModelHighlightAndMove : MonoBehaviour
     {
         if (currentChild != null)
         {
-            currentChild.material.color = xRayColour;
+            currentChild.material = modelController.X_RayMaterial;
             //currentRendere = null;
             currenHighlightName = string.Empty;
         }
@@ -285,6 +304,54 @@ public class ModelHighlightAndMove : MonoBehaviour
     #endregion
 
 
+
+    public List<string> subChildNamesSubcribe = new List<string>();
+
+    public void SubchildSelectedFromUI(string buttonName)
+    {
+        if (subChildNamesSubcribe.Exists(x => x == buttonName))
+        {
+            // CurrentMode();
+            HightLightUIselectionChild(false, buttonName);
+           
+        }
+        else
+        {
+           
+            HightLightUIselectionChild(true, buttonName);
+        }
+    }
+
+    void HightLightUIselectionChild(bool state, string buttonName)
+    {
+        foreach (var i in dropDownUI.modelChildHolder)
+        {
+            if (i.ChildModel.name == buttonName)
+            {
+                if (state)
+                {
+                    if (!subChildNamesSubcribe.Exists(x => x == buttonName))
+                    {
+                        subChildNamesSubcribe.Add(buttonName);
+                      //  SelectedChild.Add(ObjectSelectedToMove);
+                    }
+                    SelectionHighLight(i.ModelRenderer);
+                    i.SubChildTextUI.color = new Color32(156, 244, 255, 255);
+                }
+                else
+                {
+                    if (subChildNamesSubcribe.Exists(x => x == buttonName))
+                    {
+                        subChildNamesSubcribe.Remove(buttonName);
+                       
+                    }
+                    RestColour(i.ModelRenderer);
+                     i.SubChildTextUI.color = new Color32(156, 244, 96, 255);
+
+                }
+            }
+        }
+    }
 
 
 

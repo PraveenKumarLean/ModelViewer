@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657815, g: 0.49641192, b: 0.57481617, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -341,10 +341,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
+    m_Left: 10
+    m_Right: 10
+    m_Top: 10
+    m_Bottom: 10
   m_ChildAlignment: 1
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
@@ -811,7 +811,7 @@ MonoBehaviour:
   currenelectionName: 
   dropDownUI: {fileID: 2122689176}
   modelController: {fileID: 771104811}
-  NameDisplayOffset: {x: 100, y: 0, z: 0}
+  NameDisplayOffset: {x: 160, y: 0, z: 0}
   nameDisplay: {fileID: 214936063}
   SelectedChild: []
   defaultColour:
@@ -819,14 +819,15 @@ MonoBehaviour:
     rgba: 4289835459
   xRayColour:
     serializedVersion: 2
-    rgba: 285212671
+    rgba: 1694498815
   highlightColour:
     serializedVersion: 2
-    rgba: 4284797390
+    rgba: 3468546458
   selectionColour:
     serializedVersion: 2
-    rgba: 1136513380
+    rgba: 4290629988
   currentRendere: {fileID: 0}
+  subChildNamesSubcribe: []
 --- !u!1 &319036203
 GameObject:
   m_ObjectHideFlags: 0
@@ -1048,7 +1049,7 @@ RectTransform:
   m_Children:
   - {fileID: 214936063}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1498,6 +1499,7 @@ MonoBehaviour:
   speed: 0.2
   DefaultMaterial: {fileID: 2100000, guid: 949fca755252c4fa3ae7c58be1a74542, type: 2}
   X_RayMaterial: {fileID: 2100000, guid: 70c53315df4af4ed496bf01fc0bbf347, type: 2}
+  HighLightMaterial: {fileID: 2100000, guid: c7c4f7e4950a2433c90fde6d2e65024b, type: 2}
   ScrollViewRect: {fileID: 1360459177}
   dropDownUI: {fileID: 2122689176}
   XRayText: {fileID: 1346962387}
@@ -1569,7 +1571,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &909414359
 GameObject:
@@ -1604,7 +1606,7 @@ Transform:
   - {fileID: 1635335137}
   - {fileID: 251713142}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &951823084
 GameObject:
@@ -1656,7 +1658,7 @@ GameObject:
   - component: {fileID: 985962033}
   - component: {fileID: 985962032}
   m_Layer: 0
-  m_Name: Quad
+  m_Name: BackGround Ray Detection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1739,7 +1741,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &996708217
 GameObject:
@@ -2098,7 +2100,7 @@ RectTransform:
   - {fileID: 511418667}
   - {fileID: 1360459177}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3190,7 +3192,7 @@ GameObject:
   - component: {fileID: 2096905813}
   - component: {fileID: 2096905812}
   m_Layer: 5
-  m_Name: Quad
+  m_Name: 'Stop Ray While UI '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3203,17 +3205,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2096905810}
-  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: -2.118}
-  m_LocalScale: {x: 1.7312368, y: 7.668545, z: 24.504057}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -7.1519995}
+  m_LocalScale: {x: 1.7312373, y: 7.668545, z: 24.504065}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 919132148980303145}
-  m_RootOrder: 4
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 2.842, y: 0.29196167}
+  m_AnchoredPosition: {x: -0.023003101, y: 0.39237186}
   m_SizeDelta: {x: 502.0981, y: 975.09}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!64 &2096905812
@@ -3328,17 +3330,12 @@ MonoBehaviour:
   ContentContainer: {fileID: 143005309}
   m_ItemPrefab: {fileID: 6672067502594476466}
   selectionAndDisplay: {fileID: 1635335138}
+  modelHighlightAndMove: {fileID: 251713143}
   MainChildNames: []
   MainChildNamesSubcribe: []
 --- !u!1 &919132148980303144 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8140125148727081697, guid: a6ce28cf96ced4f6d9dc021772e9fb07,
-    type: 3}
-  m_PrefabInstance: {fileID: 8950589112222826441}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &919132148980303145 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8916098245334769755, guid: a6ce28cf96ced4f6d9dc021772e9fb07,
     type: 3}
   m_PrefabInstance: {fileID: 8950589112222826441}
   m_PrefabAsset: {fileID: 0}

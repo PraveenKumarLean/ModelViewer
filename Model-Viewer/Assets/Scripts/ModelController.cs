@@ -14,12 +14,16 @@ public class ModelController : MonoBehaviour
     [SerializeField]
     [Range(0,1)]
     private float speed;
-    [SerializeField]
-    private Material DefaultMaterial;
-    [SerializeField]
-    private Material X_RayMaterial;
+   // [SerializeField]
+    public Material DefaultMaterial;
+   // [SerializeField]
+    public Material X_RayMaterial;
+   // [SerializeField]
+    public Material HighLightMaterial;
     [SerializeField]
     private RectTransform ScrollViewRect;
+    [SerializeField]
+    private GameObject ScrollViewRectIgnoreRayBG;
     private Vector3 positionOffset;
     private float zPosition;
     [SerializeField]
@@ -181,6 +185,7 @@ public class ModelController : MonoBehaviour
         if (ModelBool)
         {
             ScrollViewRect.gameObject.SetActive(true);
+            ScrollViewRectIgnoreRayBG.SetActive(true);
             ModelText.color = Color.green;
             buttonClickDelegate?.Invoke();
             buttonClickDelegate += ModelMode;
@@ -188,6 +193,7 @@ public class ModelController : MonoBehaviour
         else
         {
             ScrollViewRect.gameObject.SetActive(false);
+            ScrollViewRectIgnoreRayBG.SetActive(false);
             ModelText.color = Color.black;
             buttonClickDelegate -= ModelMode;
             buttonClickDelegate?.Invoke();
@@ -209,8 +215,8 @@ public class ModelController : MonoBehaviour
         {
             if (i.ModelRenderer)
             {
-                 i.ModelRenderer.material = materialToChange;
-
+                i.ModelRenderer.material = materialToChange;
+               // i.ModelRenderer.material
             }
         }
     }

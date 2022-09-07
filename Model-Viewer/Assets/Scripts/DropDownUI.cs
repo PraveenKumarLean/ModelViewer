@@ -17,8 +17,10 @@ public class DropDownUI : MonoBehaviour
     private GameObject m_ItemPrefab;
     [SerializeField]
     private SelectionAndDisplayName selectionAndDisplay;
+    [SerializeField]
+    private ModelHighlightAndMove modelHighlightAndMove;
 
-   public List<MainChildSubChild> modelChildHolder = new List<MainChildSubChild>();
+    public List<MainChildSubChild> modelChildHolder = new List<MainChildSubChild>();
     private void Start()
     {
 
@@ -68,7 +70,7 @@ public class DropDownUI : MonoBehaviour
         }
         else
         {
-            selectionAndDisplay.SubchildSelectedFromUI(button.name);
+            modelHighlightAndMove.SubchildSelectedFromUI(button.name);
         }
 
     }
