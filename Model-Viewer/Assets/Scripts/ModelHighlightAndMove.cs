@@ -37,6 +37,7 @@ public class ModelHighlightAndMove : MonoBehaviour
         {
             MouseClicked = true;
             OnMouseButtonDown();
+            DragMultipleObject(true);
         }
         else if(!MouseClicked)
         {
@@ -47,6 +48,7 @@ public class ModelHighlightAndMove : MonoBehaviour
         {
             MouseClicked = false;
             ObjectSelectedToMove = null;
+            DragMultipleObject(false);
         }
 
         if(Input.GetMouseButton(0))
@@ -303,6 +305,41 @@ public class ModelHighlightAndMove : MonoBehaviour
         positionOffset = currentRendere.transform.position - GetMouseAsWorldPoint();
     }
 
+
+
+
+    List<ParentChildForDrag> DragObjectCollection = new List<ParentChildForDrag>();
+    void DragMultipleObject(bool Isbuttonpressed)
+    {
+        if (Isbuttonpressed)
+        {
+            foreach (var i in subChildNamesSubcribe)
+            {
+                if (ObjectSelectedToMove)
+                {
+                    if (i != ObjectSelectedToMove.name)
+                    {
+                        var currentTransfor = NameToRender(i).transform;
+                        DragObjectCollection.Add(new ParentChildForDrag { ChildObject = currentTransfor, ParentObject = currentTransfor.parent.transform });
+
+                        currentTransfor.SetParent(ObjectSelectedToMove.transform);
+                    }
+                }
+            }
+        }
+        else
+        {
+            foreach (var i in DragObjectCollection)
+            {
+                i.ChildObject.SetParent(i.ParentObject);
+            }
+        }
+
+    }
+
+
+
+
     #endregion
     Renderer NameToRender(string Name)
     {
@@ -327,16 +364,11 @@ public class ModelHighlightAndMove : MonoBehaviour
             HightLightUIselectionChild(false, buttonName);
             if (SelectedChild.Exists(x => x == NameToRender(buttonName)))
             {
-               
                 SelectedChild.Remove(NameToRender(buttonName));
-
             }
-
-
         }
         else
         {
-
             HightLightUIselectionChild(true, buttonName);
         }
     }
@@ -353,6 +385,7 @@ public class ModelHighlightAndMove : MonoBehaviour
                     {
                         subChildNamesSubcribe.Add(buttonName);
                         //  SelectedChild.Add(ObjectSelectedToMove);
+                        nameDisplay.gameObject.SetActive(false);
                     }
 
                     SelectedChild.Add(i.ModelRenderer);
@@ -364,7 +397,7 @@ public class ModelHighlightAndMove : MonoBehaviour
                     if (subChildNamesSubcribe.Exists(x => x == buttonName))
                     {
                         subChildNamesSubcribe.Remove(buttonName);
-                       
+                        nameDisplay.gameObject.SetActive(false);
                     }
                     RestColour(i.ModelRenderer);
                     i.SubChildTextUI.color = new Color32(156, 244, 96, 255);
@@ -374,12 +407,6 @@ public class ModelHighlightAndMove : MonoBehaviour
         }
     }
 
-
-    List<Transform> DragObjectCollection = new List<Transform>();
-    void DragMultipleObject(Transform selectionObject)
-    {
-
-    }
 
 
 
