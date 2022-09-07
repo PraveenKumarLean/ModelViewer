@@ -11,3 +11,9 @@ public class MainChildSubChild
     public Transform ChildModel;
     public Renderer ModelRenderer;
 }
+
+public class ParentChildForDrag
+{
+    public Transform ParentObject;
+    public Transform ChildObject;
+}

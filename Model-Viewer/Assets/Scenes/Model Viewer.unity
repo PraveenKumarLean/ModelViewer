@@ -811,6 +811,7 @@ MonoBehaviour:
   currenelectionName: 
   dropDownUI: {fileID: 2122689176}
   modelController: {fileID: 771104811}
+  MouseClicked: 1
   NameDisplayOffset: {x: 160, y: 0, z: 0}
   nameDisplay: {fileID: 214936063}
   SelectedChild: []
@@ -1502,6 +1503,7 @@ MonoBehaviour:
   ScrollViewRect: {fileID: 1360459177}
   ScrollViewRectIgnoreRayBG: {fileID: 2096905810}
   dropDownUI: {fileID: 2122689176}
+  modelHighlightAndMove: {fileID: 251713143}
   XRayText: {fileID: 1346962387}
   TransText: {fileID: 1546987328}
   ModelText: {fileID: 187249558}

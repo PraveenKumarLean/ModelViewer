@@ -28,7 +28,8 @@ public class ModelController : MonoBehaviour
     private float zPosition;
     [SerializeField]
     private DropDownUI dropDownUI;
-
+    [SerializeField]
+    private ModelHighlightAndMove modelHighlightAndMove;
     Vector3 previousPose;
     Vector3 currentPose;
 
@@ -37,7 +38,7 @@ public class ModelController : MonoBehaviour
         // Application.targetFrameRate = 30;
         MoveWholeModel();
 
-        RoateModel();
+        
     }
 
     private void MoveWholeModel()
@@ -46,12 +47,34 @@ public class ModelController : MonoBehaviour
         {
             zPosition = Camera.main.WorldToScreenPoint(dropDownUI.Model.transform.position).z;
             positionOffset = dropDownUI.Model.transform.position - GetMouseAsWorldPoint();
+            modelHighlightAndMove.MouseClicked = true;
+            modelHighlightAndMove.nameDisplay.gameObject.SetActive(false);
         }
         if (Input.GetMouseButton(2))
         {
             dropDownUI.Model.transform.position = GetMouseAsWorldPoint() + positionOffset;
-
+            
         }
+        if(Input.GetMouseButtonDown(1))
+        {
+            previousPose = Input.mousePosition;
+
+            modelHighlightAndMove.MouseClicked = true;
+            modelHighlightAndMove.nameDisplay.gameObject.SetActive(false);
+        }
+        if (Input.GetMouseButton(1))
+        {
+
+            RoateModel();
+            previousPose = Input.mousePosition;
+        }
+
+        else if(Input.GetMouseButtonUp(2)|| Input.GetMouseButtonUp(1))
+        {
+            modelHighlightAndMove.MouseClicked = false;
+        }
+       
+
     }
 
 
@@ -80,25 +103,21 @@ public class ModelController : MonoBehaviour
 
     void RoateModel()
     {
-        if (Input.GetMouseButton(1))
+        currentPose = Input.mousePosition - previousPose;
+        if (Vector3.Dot(dropDownUI.Model.transform.up, Vector3.up) >= 0)
         {
 
-            currentPose = Input.mousePosition - previousPose;
-            if (Vector3.Dot(dropDownUI.Model.transform.up, Vector3.up) >= 0)
-            {
-
-                dropDownUI.Model.transform.Rotate(dropDownUI.Model.transform.up , -Vector3.Dot(currentPose, Camera.main.transform.right) * speed, Space.World) ;
-            }
-            else
-            {
-                dropDownUI.Model.transform.Rotate(dropDownUI.Model.transform.up, Vector3.Dot(currentPose, Camera.main.transform.right) * speed, Space.World);
-            }
-
-            dropDownUI.Model.transform.Rotate(Camera.main.transform.right, Vector3.Dot(currentPose, Camera.main.transform.up) * speed, Space.World);
+            dropDownUI.Model.transform.Rotate(dropDownUI.Model.transform.up, -Vector3.Dot(currentPose, Camera.main.transform.right) * speed, Space.World);
+        }
+        else
+        {
+            dropDownUI.Model.transform.Rotate(dropDownUI.Model.transform.up, Vector3.Dot(currentPose, Camera.main.transform.right) * speed, Space.World);
         }
 
+        dropDownUI.Model.transform.Rotate(Camera.main.transform.right, Vector3.Dot(currentPose, Camera.main.transform.up) * speed, Space.World);
 
-        previousPose = Input.mousePosition;
+
+
     }
 
     #region UIButton 

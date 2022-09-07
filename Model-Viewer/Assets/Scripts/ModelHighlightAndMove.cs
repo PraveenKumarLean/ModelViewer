@@ -12,14 +12,14 @@ public class ModelHighlightAndMove : MonoBehaviour
     private DropDownUI dropDownUI;
     [SerializeField]
     private ModelController modelController;
-    private bool MouseClicked = true;
+    public bool MouseClicked;
 
 
     [SerializeField]
     private Vector3 NameDisplayOffset;
 
     [SerializeField]
-    private Transform nameDisplay;
+    public Transform nameDisplay;
     private TextMeshProUGUI nameDisplayText;
 
 
@@ -27,6 +27,7 @@ public class ModelHighlightAndMove : MonoBehaviour
     {
         nameDisplayText = nameDisplay.GetComponentInChildren<TextMeshProUGUI>();
         AssignMaterialColour();
+        MouseClicked = false;
     }
 
 
@@ -34,17 +35,17 @@ public class ModelHighlightAndMove : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            MouseClicked = false;
+            MouseClicked = true;
             OnMouseButtonDown();
         }
-        else if(MouseClicked)
+        else if(!MouseClicked)
         {
             MouseHoverHighLight();
         }
 
         if (Input.GetMouseButtonUp(0))
         {
-            MouseClicked = true;
+            MouseClicked = false;
             ObjectSelectedToMove = null;
         }
 
@@ -372,6 +373,16 @@ public class ModelHighlightAndMove : MonoBehaviour
             }
         }
     }
+
+
+    List<Transform> DragObjectCollection = new List<Transform>();
+    void DragMultipleObject(Transform selectionObject)
+    {
+
+    }
+
+
+
 
 
 
