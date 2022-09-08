@@ -1500,8 +1500,8 @@ MonoBehaviour:
   DefaultMaterial: {fileID: 2100000, guid: 949fca755252c4fa3ae7c58be1a74542, type: 2}
   X_RayMaterial: {fileID: 2100000, guid: 70c53315df4af4ed496bf01fc0bbf347, type: 2}
   HighLightMaterial: {fileID: 2100000, guid: c7c4f7e4950a2433c90fde6d2e65024b, type: 2}
+  TransparentMaterial: {fileID: 2100000, guid: 62875da5c915546979e6d6d55129e1a8, type: 2}
   ScrollViewRect: {fileID: 1360459177}
-  ScrollViewRectIgnoreRayBG: {fileID: 0}
   dropDownUI: {fileID: 2122689176}
   modelHighlightAndMove: {fileID: 251713143}
   XRayText: {fileID: 1346962387}

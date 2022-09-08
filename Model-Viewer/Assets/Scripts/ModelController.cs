@@ -20,6 +20,7 @@ public class ModelController : MonoBehaviour
     public Material X_RayMaterial;
    // [SerializeField]
     public Material HighLightMaterial;
+    public Material TransparentMaterial;
     [SerializeField]
     private RectTransform ScrollViewRect;
     private Vector3 positionOffset;
@@ -162,15 +163,18 @@ public class ModelController : MonoBehaviour
         {
             XRayText.color = Color.green;
             ChangeMaterial(X_RayMaterial);
+            buttonClickDelegate?.Invoke();
+            buttonClickDelegate += X_RayMode;
 
-          
             CurrentMode = "XRay";
         }
         else
         {
             XRayText.color = Color.black;
             ChangeMaterial(DefaultMaterial);
-            CurrentMode = "Transparent";
+            buttonClickDelegate -= X_RayMode;
+            buttonClickDelegate?.Invoke();
+            
         }
 
     }
@@ -183,12 +187,15 @@ public class ModelController : MonoBehaviour
         if (TransparentBool)
         {
             TransText.color = Color.green;
+            ChangeMaterial(TransparentMaterial);
             buttonClickDelegate?.Invoke();
             buttonClickDelegate += TransparentMode;
+            CurrentMode = "Transparent";
         }
         else
         {
             TransText.color = Color.black;
+            ChangeMaterial(DefaultMaterial);
             buttonClickDelegate -= TransparentMode;
             buttonClickDelegate?.Invoke();
         }
@@ -203,15 +210,15 @@ public class ModelController : MonoBehaviour
         {
             ScrollViewRect.gameObject.SetActive(true);
             ModelText.color = Color.green;
-            buttonClickDelegate?.Invoke();
-            buttonClickDelegate += ModelMode;
+          //  buttonClickDelegate?.Invoke();
+          //  buttonClickDelegate += ModelMode;
         }
         else
         {
             ScrollViewRect.gameObject.SetActive(false);
             ModelText.color = Color.black;
-            buttonClickDelegate -= ModelMode;
-            buttonClickDelegate?.Invoke();
+          //  buttonClickDelegate -= ModelMode;
+          //  buttonClickDelegate?.Invoke();
         }
     }
 

@@ -29,6 +29,7 @@ public class ModelHighlightAndMove : MonoBehaviour
         nameDisplayText = nameDisplay.GetComponentInChildren<TextMeshProUGUI>();
         AssignMaterialColour();
         MouseClicked = false;
+        Debug.Log("No Idea "+ SystemInfo.operatingSystem);
     }
 
 
@@ -269,6 +270,9 @@ public class ModelHighlightAndMove : MonoBehaviour
             case "XRay":
                 XrayMode(currentRendere);
                 break;
+            case "Transparent":
+                TransparentMode(currentRendere);
+                break;
 
             default:
                 defaultmode(currentRendere);
@@ -298,6 +302,19 @@ public class ModelHighlightAndMove : MonoBehaviour
 
 
     }
+               
+    void TransparentMode(Renderer currentChild)
+    {
+        if (currentChild != null)
+        {
+            currentChild.material = modelController.TransparentMaterial;
+            //currentRendere = null;
+            currenHighlightName = string.Empty;
+        }
+
+
+    }
+
 
     #endregion
 
