@@ -440,11 +440,11 @@ public class ModelHighlightAndMove : MonoBehaviour
                 raycastResultsList.RemoveAt(i);
                 i--;
 
-                if (currentRender)
-                {
-                    RestColour(currentRender);
-                    currentRender = null;
-                }
+                //if (currenHighlightName != null && ObjectSelectedToMove.name!= currenHighlightName)
+                //{
+                //    RestColour(NameToRender( currenHighlightName));
+                //    currentRender = null;
+                //}
             }
         }
         return raycastResultsList.Count > 0;

@@ -140,6 +140,7 @@ public class ModelController : MonoBehaviour
         else
         {
             XRayText.color = Color.black;
+            CurrentMode = string.Empty;
             ChangeMaterial(DefaultMaterial);
             //  CurrentMode = "Default";
             buttonClickDelegate -= X_RayMode;
@@ -164,6 +165,7 @@ public class ModelController : MonoBehaviour
         else
         {
             TransText.color = Color.black;
+            CurrentMode = string.Empty;
             ChangeMaterial(DefaultMaterial);
             // CurrentMode = "Default";
             buttonClickDelegate -= TransparentMode;
@@ -180,15 +182,11 @@ public class ModelController : MonoBehaviour
         {
             ScrollViewRect.gameObject.SetActive(true);
             ModelText.color = Color.green;
-            //  buttonClickDelegate?.Invoke();
-            //  buttonClickDelegate += ModelMode;
         }
         else
         {
             ScrollViewRect.gameObject.SetActive(false);
             ModelText.color = Color.black;
-            //  buttonClickDelegate -= ModelMode;
-            //  buttonClickDelegate?.Invoke();
         }
     }
 
@@ -209,7 +207,6 @@ public class ModelController : MonoBehaviour
             if (i.ModelRenderer)
             {
                 i.ModelRenderer.material = materialToChange;
-                // i.ModelRenderer.material
             }
         }
     }
