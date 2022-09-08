@@ -1,37 +1,27 @@
-using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using System.Linq;
 
 public class DropDownUI : MonoBehaviour
 {
     [Tooltip("Model Need to move and rotate")]
-    // [SerializeField]
     public GameObject Model;
-    
-    //public RectTransform ScrollViewRect;
     [SerializeField]
     private Transform ContentContainer;
     [SerializeField]
     private GameObject m_ItemPrefab;
     [SerializeField]
-    private SelectionAndDisplayName selectionAndDisplay;
-    [SerializeField]
     private ModelHighlightAndMove modelHighlightAndMove;
-
     public List<MainChildSubChild> modelChildHolder = new List<MainChildSubChild>();
+    private List<string> MainChildNames = new List<string>();                       // List of main Child Names 
+    private List<string> MainChildCurrentSelectionSubcribe = new List<string>();    // UI Drop down clicked to expand
     private void Start()
     {
-
         GetAllChildInformation();
-       
-
     }
-    
-    
-    void GetAllChildInformation()
+
+    private void GetAllChildInformation()
     {
         for (var mainChildCount = 0; mainChildCount < Model.transform.childCount; mainChildCount++)
         {
@@ -40,45 +30,32 @@ public class DropDownUI : MonoBehaviour
             for (var subChildCount = 0; subChildCount < _mainChild.transform.childCount; subChildCount++)
             {
                 Transform _subChild = _mainChild.transform.GetChild(subChildCount);
-                ButtonInstantiate(_subChild.name, false, _mainChild.name ,_subChild);
-
+                ButtonInstantiate(_subChild.name, false, _mainChild.name, _subChild);
             }
         }
     }
 
-
-    public List<string> MainChildNames = new List<string>();     // List of main Child Names 
-    public List<string> MainChildNamesSubcribe = new List<string>();
-
-    public void DropDownButtonPressed(Button button)
+    public void DropDownButtonPressed(Button button)  // All Instances of UIButton reference this function
     {
-        Debug.Log("Function call unnessary");
-        //var _buttonName = button.name;
         if (MainChildNames.Exists(x => x == button.name))
         {
-
-            if (MainChildNamesSubcribe.Exists(x => x == button.name))
+            if (MainChildCurrentSelectionSubcribe.Exists(x => x == button.name))
             {
-                MainChildNamesSubcribe.Remove(button.name);
+                MainChildCurrentSelectionSubcribe.Remove(button.name);
                 MainChildSubchildState(false, button);
             }
             else
             {
-                MainChildNamesSubcribe.Add(button.name);
+                MainChildCurrentSelectionSubcribe.Add(button.name);
                 MainChildSubchildState(true, button);
             }
-           
         }
         else
         {
             modelHighlightAndMove.SubchildSelectedFromUI(button.name);
         }
-
     }
-
-   
-
-    void MainChildSubchildState(bool state, Button button)
+    private void MainChildSubchildState(bool state, Button button)
     {
         foreach (var i in modelChildHolder)
         {
@@ -89,34 +66,31 @@ public class DropDownUI : MonoBehaviour
         }
     }
 
-    void ButtonInstantiate(string Name, bool State, string mainChildName, Transform ModelChild)
+    private void ButtonInstantiate(string currentInstanceName, bool state, string mainChildName, Transform modelChild)
     {
-        var item_go = Instantiate(m_ItemPrefab);
+        var UIButtonInstance = Instantiate(m_ItemPrefab);
         // do something with the instantiated item -- for instance
-        var _text =   item_go.GetComponentInChildren<TextMeshProUGUI>();
-        _text.text = Name;
-        item_go.name = Name;
+        var text = UIButtonInstance.GetComponentInChildren<TextMeshProUGUI>();
+        text.text = currentInstanceName;
+        UIButtonInstance.name = currentInstanceName;
         //parent the item to the content container
-        item_go.transform.SetParent(ContentContainer);
+        UIButtonInstance.transform.SetParent(ContentContainer);
         //reset the item's scale -- this can get munged with UI prefabs
-        item_go.transform.localScale = Vector2.one;
-        item_go.SetActive(State);
-        if (mainChildName != Name)
+        UIButtonInstance.transform.localScale = Vector2.one;
+        UIButtonInstance.SetActive(state);
+        if (mainChildName != currentInstanceName)
         {
-            _text.text = "  "+Name;
-            modelChildHolder.Add(new MainChildSubChild { MainChildUI = mainChildName, SubChildUI = item_go.transform , ChildModel = ModelChild , ModelRenderer = ModelChild.GetComponent<Renderer>() , SubChildTextUI  = _text });
-            _text.color = new Color32(156,244,96,255);
+            text.text = "  " + currentInstanceName;
+            // Load data of all object in an array class
+            modelChildHolder.Add(new MainChildSubChild { MainChildUI = mainChildName, SubChildUI = UIButtonInstance.transform, ChildModel = modelChild, ModelRenderer = modelChild.GetComponent<Renderer>(), SubChildTextUI = text });
+            text.color = new Color32(156, 244, 96, 255);
         }
         else
         {
-            _text.text = Name;
-            MainChildNames.Add(Name);
-            _text.color = new Color32(255, 255, 255, 255);
+            text.text = currentInstanceName;
+            MainChildNames.Add(currentInstanceName);
+            text.color = new Color32(255, 255, 255, 255);
         }
-
     }
-
-
-
 }
 

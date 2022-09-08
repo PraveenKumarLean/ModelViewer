@@ -1,13 +1,13 @@
 
-using UnityEngine;
-using TMPro;
 using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
 
 public class SelectionAndDisplayName : MonoBehaviour
 {
-    
+
     //[SerializeField]
-   // private GameObject model;
+    // private GameObject model;
     [SerializeField]
     private DropDownUI dropDownUI;
     [SerializeField]
@@ -19,12 +19,12 @@ public class SelectionAndDisplayName : MonoBehaviour
     private Transform nameDisplay;
     private TextMeshProUGUI nameDisplayText;
     public float val;
-    public string currentName= string.Empty;
+    public string currentName = string.Empty;
     void Start()
     {
         nameDisplayText = nameDisplay.GetComponentInChildren<TextMeshProUGUI>();
     }
-   
+
     // Update is called once per frame
     void Update()
     {
@@ -100,9 +100,9 @@ public class SelectionAndDisplayName : MonoBehaviour
                     //stopMovingClickedOutSide = true;
                     ResetsubChildNamesSubcribe();
                     nameDisplayText.text = currentRendere.name;
-                    
+
                 }
-                if(_hit.transform.gameObject.layer == 5)
+                if (_hit.transform.gameObject.layer == 5)
                 {
                     nameDisplay.gameObject.SetActive(false);
                     currentRendere = null;
@@ -127,8 +127,8 @@ public class SelectionAndDisplayName : MonoBehaviour
                     if (i.ChildModel.name == CurrentSelection.name)
                     {
                         //  Debug.Log("Nmae Of the Iteam : " + i.ChildModel.name);
-                          HighLightMode(i.ModelRenderer);
-                        
+                        HighLightMode(i.ModelRenderer);
+
                         if (currentRendere != i.ModelRenderer)
                         {
                             CurrentMode();
@@ -162,17 +162,17 @@ public class SelectionAndDisplayName : MonoBehaviour
     [SerializeField]
     private Color32 xRayColour = new Color32(255, 255, 255, 16);
     [SerializeField]
-    private Color32 highlightColour = new Color32(100,209,189,255);
+    private Color32 highlightColour = new Color32(100, 209, 189, 255);
 
 
-   public  Renderer currentRendere ;
+    public Renderer currentRendere;
 
     List<Renderer> currentHiglight = new List<Renderer>();
 
 
     void CurrentMode()
     {
-        
+
         switch (modelController.CurrentMode)
         {
             case "XRay":
@@ -182,7 +182,7 @@ public class SelectionAndDisplayName : MonoBehaviour
             default:
                 defaultmode(currentRendere);
                 break;
-               
+
         }
     }
     void HighLightMode(Renderer currentChild)
@@ -200,7 +200,7 @@ public class SelectionAndDisplayName : MonoBehaviour
             currentChild.material.color = defaultColour;
 
             Debug.Log("Functioncalling Count   +   defaultmode");
-           HightLightUIselectionChild(false, currentChild.name);
+            HightLightUIselectionChild(false, currentChild.name);
 
             currentRendere = null;
             currentName = string.Empty;
@@ -217,7 +217,7 @@ public class SelectionAndDisplayName : MonoBehaviour
             currentRendere = null;
             currentName = string.Empty;
         }
-       
+
 
     }
 
@@ -228,7 +228,7 @@ public class SelectionAndDisplayName : MonoBehaviour
     private Vector3 positionOffset;
     private float zPosition;
     private Vector3 GetMouseAsWorldPoint()
-    { 
+    {
         // Pixel coordinates of mouse (x,y)
         Vector3 mousePoint = Input.mousePosition;
         // z coordinate of game object on screen
@@ -242,26 +242,26 @@ public class SelectionAndDisplayName : MonoBehaviour
     void ResetsubChildNamesSubcribe()
     {
         int index = subChildNamesSubcribe.Count;
-        for (var i =0; i< index; i++)
+        for (var i = 0; i < index; i++)
         {
             SubchildSelectedFromUI(subChildNamesSubcribe[0]);
-            if(i > index-1)
+            if (i > index - 1)
             {
                 subChildNamesSubcribe.Clear();
             }
         }
-       
+
     }
 
 
 
-    public  List<string> subChildNamesSubcribe = new List<string>();
+    public List<string> subChildNamesSubcribe = new List<string>();
 
     public void SubchildSelectedFromUI(string buttonName)
     {
         if (subChildNamesSubcribe.Exists(x => x == buttonName))
         {
-           // CurrentMode();
+            // CurrentMode();
             HightLightUIselectionChild(false, buttonName);
             subChildNamesSubcribe.Remove(buttonName);
         }
@@ -283,9 +283,9 @@ public class SelectionAndDisplayName : MonoBehaviour
                     HighLightMode(i.ModelRenderer);
                     i.SubChildTextUI.color = new Color32(156, 244, 255, 255);
                 }
-                else if(!state)
+                else if (!state)
                 {
-                    if(modelController.CurrentMode == "XRay")
+                    if (modelController.CurrentMode == "XRay")
                     {
                         i.ModelRenderer.material.color = xRayColour;
                     }
@@ -293,7 +293,7 @@ public class SelectionAndDisplayName : MonoBehaviour
                     {
                         i.ModelRenderer.material.color = defaultColour;
                     }
-                   
+
                     i.SubChildTextUI.color = new Color32(156, 244, 96, 255);
 
                 }

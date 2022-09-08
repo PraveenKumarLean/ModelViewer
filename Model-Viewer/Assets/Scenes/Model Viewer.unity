@@ -807,14 +807,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c20408f965eda7d4baa76529589288da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currenHighlightName: 
-  currenelectionName: 
   dropDownUI: {fileID: 2122689176}
   modelController: {fileID: 771104811}
   MouseClicked: 1
   NameDisplayOffset: {x: 160, y: 0, z: 0}
   nameDisplay: {fileID: 214936063}
-  SelectedChild: []
   defaultColour:
     serializedVersion: 2
     rgba: 4290751676
@@ -827,7 +824,7 @@ MonoBehaviour:
   selectionColour:
     serializedVersion: 2
     rgba: 4290629988
-  currentRendere: {fileID: 0}
+  currentRender: {fileID: 0}
   subChildNamesSubcribe: []
 --- !u!1 &319036203
 GameObject:
@@ -3166,10 +3163,7 @@ MonoBehaviour:
   Model: {fileID: 919132148980303144}
   ContentContainer: {fileID: 143005309}
   m_ItemPrefab: {fileID: 6672067502594476466}
-  selectionAndDisplay: {fileID: 0}
   modelHighlightAndMove: {fileID: 251713143}
-  MainChildNames: []
-  MainChildNamesSubcribe: []
 --- !u!1 &919132148980303144 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8140125148727081697, guid: a6ce28cf96ced4f6d9dc021772e9fb07,

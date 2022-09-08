@@ -1,80 +1,79 @@
-using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using TMPro;
 
 public class ModelHighlightAndMove : MonoBehaviour
 {
     // Check Model is already selected
-    public string currenHighlightName = string.Empty;
-    public string currenelectionName = string.Empty;
+    private string currenHighlightName = string.Empty;
     [SerializeField]
     private DropDownUI dropDownUI;
     [SerializeField]
     private ModelController modelController;
+    [HideInInspector]
     public bool MouseClicked;
-
-
     [SerializeField]
     private Vector3 NameDisplayOffset;
-
-    [SerializeField]
     public Transform nameDisplay;
     private TextMeshProUGUI nameDisplayText;
-
+   
 
     private void Start()
     {
         nameDisplayText = nameDisplay.GetComponentInChildren<TextMeshProUGUI>();
         AssignMaterialColour();
         MouseClicked = false;
-     //   Debug.Log("No Idea "+ SystemInfo.operatingSystem);
     }
 
 
-    void Update()
+    private void Update()
     {
 
         if (!IsMouseOverUI())
         {
-           
-
-            if (Input.GetMouseButtonDown(0))
-            {
-                MouseClicked = true;
-                OnMouseButtonDown();
-                DragMultipleObject(true);
-            }
-            else if (!MouseClicked)
-            {
-                MouseHoverHighLight();
-            }
-
-            if (Input.GetMouseButtonUp(0))
-            {
-                MouseClicked = false;
-                ObjectSelectedToMove = null;
-                DragMultipleObject(false);
-            }
-
-            if (Input.GetMouseButton(0))
-            {
-                if (ObjectSelectedToMove != null)
-                {
-
-                    ObjectSelectedToMove.transform.position = GetMouseAsWorldPoint() + positionOffset;
-                    Vector3 positionss = Input.mousePosition + NameDisplayOffset;
-                    nameDisplay.transform.position = positionss;
-                }
-            }
+            MouseInputs();
         }
-       
-
-
 
     }
-    bool IsStopHighLight;
+
+    private void MouseInputs()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            MouseClicked = true;
+            OnMouseButtonDown();
+            DragMultipleObject(true);
+        }
+        else if (!MouseClicked)
+        {
+            MouseHoverHighLight();
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            MouseClicked = false;
+            ObjectSelectedToMove = null;
+            DragMultipleObject(false);
+        }
+
+        if (Input.GetMouseButton(0))
+        {
+            if (ObjectSelectedToMove != null)
+            {
+
+                ObjectSelectedToMove.transform.position = GetMouseAsWorldPoint() + positionOffset;
+                Vector3 positionss = Input.mousePosition + NameDisplayOffset;
+                nameDisplay.transform.position = positionss;
+            }
+        }
+    }
+
+    #region Mouse Hover HighLight
+
+    private bool IsStopHighLight;
+
+
     private void MouseHoverHighLight()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -82,149 +81,108 @@ public class ModelHighlightAndMove : MonoBehaviour
         if (Physics.Raycast(ray, out hit, 100))
         {
             var CurrentSelection = hit.transform;
-          
+
             if (currenHighlightName != CurrentSelection.name && CurrentSelection.gameObject.layer == 7)
             {
                 currenHighlightName = CurrentSelection.name;
                 IsStopHighLight = true;
 
-                foreach (var i in dropDownUI.modelChildHolder)
+                Renderer _highLightedCurrentRender = NameToRender(CurrentSelection.name);
+                if (!SelectedChild.Exists(x => x == _highLightedCurrentRender))
                 {
-                    if (i.ChildModel.name == CurrentSelection.name)
+                    MouseHoverHighLight(_highLightedCurrentRender);
+
+                    if (currentRender != _highLightedCurrentRender)
                     {
-                       
-                        if ( !SelectedChild.Exists(x => x == i.ModelRenderer))
+                        if (!SelectedChild.Exists(x => x == currentRender))
                         {
-                          
-                             MouseHoverHighLight(i.ModelRenderer);
-                            if (currentRendere != i.ModelRenderer)
-                            {
-                                if (!SelectedChild.Exists(x => x == currentRendere))
-                                {
-                                  //  Debug.Log(i.ModelRenderer);
-                                    RestColour(currentRendere);
-                                    currentRendere = i.ModelRenderer;
-                                }
-                                else
-                                {
-                                    currentRendere = i.ModelRenderer;
-                                    RestColour(currentRendere);
-                                }
-                            }
+                            RestColour(currentRender);
+                            currentRender = _highLightedCurrentRender;
                         }
-                        else if(SelectedChild.Exists(x => x == i.ModelRenderer))
+                        else
                         {
-                            if(currentRendere!= i.ModelRenderer)
-                            RestColour(currentRendere);
-                            currentRendere = null;
+                            currentRender = _highLightedCurrentRender;
+                            RestColour(currentRender);
                         }
-                       
                     }
                 }
-               
+                else if (SelectedChild.Exists(x => x == _highLightedCurrentRender))
+                {
+                    if (currentRender != _highLightedCurrentRender)
+                        RestColour(currentRender);
+                    currentRender = null;
+                }
             }
-            else if (CurrentSelection.gameObject.layer == 0 )
+            else if (CurrentSelection.gameObject.layer == 0)
             {
-                if(IsStopHighLight)
+                if (IsStopHighLight) // Stop Constant update
                 {
                     IsStopHighLight = false;
-                   
-                    if (!SelectedChild.Exists(x => x == currentRendere) && currentRendere)
-                    {
-                       // Debug.Log("Call 2   : "   + currentRendere.name + "   " + hit.transform.name);
-                        
-                        RestColour(currentRendere);
-                    }
-                    
 
+                    if (!SelectedChild.Exists(x => x == currentRender) && currentRender)
+                    {
+                        RestColour(currentRender);
+                    }
                 }
             }
-
         }
     }
 
-   public List<Renderer> SelectedChild = new List<Renderer>();
+
+
+    #endregion
+
+
+    #region Mouse Selection
+
+
+    private List<Renderer> SelectedChild = new List<Renderer>();
     private void OnMouseButtonDown()
     {
-       // if ()
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit _hit;
+
+        if (Physics.Raycast(ray, out _hit, 100))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit _hit;
+            var CurrentSelection = _hit.transform;
 
-            if (Physics.Raycast(ray, out _hit, 100))
+            if (CurrentSelection.gameObject.layer == 7)
             {
-                var CurrentSelection = _hit.transform;
-               
-                if (CurrentSelection.gameObject.layer == 7)
-                {
-                    foreach (var i in dropDownUI.modelChildHolder)
-                    {
-                        if (i.ChildModel.name == CurrentSelection.name)
-                        {
-                            if( !SelectedChild.Exists(x => x.name == CurrentSelection.name))
-                            {
-                                ResetAllSelectedList();
-                                SelectedChild.Clear();
-                                if (ObjectSelectedToMove)
-                                {
-                                    HightLightUIselectionChild(false, ObjectSelectedToMove.name);
-                                }
-                                ObjectSelectedToMove = i.ModelRenderer;
-                                HightLightUIselectionChild(true, ObjectSelectedToMove.name);
+                Renderer _highLightedCurrentRender = NameToRender(CurrentSelection.name);
 
-
-
-                            }
-                            else
-                            {
-                                ObjectSelectedToMove = i.ModelRenderer;
-                            }
-                            DragPositionOffset(ObjectSelectedToMove);
-                        }
-                    }
-
-                }
-                else if(CurrentSelection.gameObject.layer == 0)
+                if (!SelectedChild.Exists(x => x.name == CurrentSelection.name))
                 {
                     ResetAllSelectedList();
                     SelectedChild.Clear();
-                    nameDisplay.gameObject.SetActive(false);
+
+                    if (ObjectSelectedToMove)
+                    {
+                        HightLightUIselectionChild(false, ObjectSelectedToMove.name);
+                    }
+                    ObjectSelectedToMove = _highLightedCurrentRender;
+                    HightLightUIselectionChild(true, ObjectSelectedToMove.name);
                 }
-               
-
-            }
-           
-        }
-    }
-
-    bool IsMouseOverUI()
-    {
-        PointerEventData pointerEventData = new PointerEventData(EventSystem.current);
-        pointerEventData.position = Input.mousePosition;
-
-        List<RaycastResult> raycastResultsList = new List<RaycastResult>();
-        EventSystem.current.RaycastAll(pointerEventData, raycastResultsList);
-        for(int i =0; i<raycastResultsList.Count; i++)
-        {
-            if (raycastResultsList[i].gameObject.CompareTag("IgnoresUI"))
-            {
-                raycastResultsList.RemoveAt(i);
-                i--;
-                
-                if(currentRendere) 
+                else
                 {
-                    RestColour(currentRendere);
-                    currentRendere = null;
+                    ObjectSelectedToMove = _highLightedCurrentRender;
                 }
+                DragPositionOffset(ObjectSelectedToMove);
+            }
+            else if (CurrentSelection.gameObject.layer == 0)
+            {
+                ResetAllSelectedList();
+                SelectedChild.Clear();
+                nameDisplay.gameObject.SetActive(false);
             }
         }
-        return raycastResultsList.Count > 0;
     }
+
+    #endregion
 
 
 
     #region Color Change
-    
+
     [SerializeField]
     private Color32 defaultColour = new Color32(195, 177, 177, 255);
     [SerializeField]
@@ -235,9 +193,9 @@ public class ModelHighlightAndMove : MonoBehaviour
     private Color32 selectionColour = new Color32(100, 209, 189, 255);
 
 
-    public Renderer currentRendere;
+    private Renderer currentRender;
 
-    List<Renderer> currentHiglight = new List<Renderer>();
+    private List<Renderer> currentHiglight = new List<Renderer>();
 
 
     private void AssignMaterialColour()
@@ -247,21 +205,20 @@ public class ModelHighlightAndMove : MonoBehaviour
         modelController.X_RayMaterial.color = xRayColour;
     }
 
-    void MouseHoverHighLight(Renderer currentChild)
+    private void MouseHoverHighLight(Renderer currentChild)
     {
         currentChild.material = modelController.HighLightMaterial;
         currentChild.material.color = highlightColour;
     }
 
-    void SelectionHighLight(Renderer currentChild)
+    private void SelectionHighLight(Renderer currentChild)
     {
         currentChild.material = modelController.DefaultMaterial;
         currentChild.material.color = selectionColour;
-
         currentHiglight.Add(currentChild);
     }
 
-    void ResetAllSelectedList()
+    private void ResetAllSelectedList()
     {
         int index = SelectedChild.Count;
         for (var i = 0; i < index; i++)
@@ -269,10 +226,10 @@ public class ModelHighlightAndMove : MonoBehaviour
             RestColour(SelectedChild[0]);
             SubchildSelectedFromUI(SelectedChild[0].name);
         }
-       
+
     }
 
-    void RestColour(Renderer currentRendere)
+    private void RestColour(Renderer currentRendere)
     {
         switch (modelController.CurrentMode)
         {
@@ -284,12 +241,12 @@ public class ModelHighlightAndMove : MonoBehaviour
                 break;
 
             default:
-                defaultmode(currentRendere);
+                Defaultmode(currentRendere);
                 break;
 
         }
     }
-    void defaultmode(Renderer currentChild)
+    private void Defaultmode(Renderer currentChild)
     {
         if (currentChild != null)
         {
@@ -298,7 +255,7 @@ public class ModelHighlightAndMove : MonoBehaviour
         }
     }
 
-    void XrayMode(Renderer currentChild)
+    private void XrayMode(Renderer currentChild)
     {
         if (currentChild != null)
         {
@@ -308,8 +265,8 @@ public class ModelHighlightAndMove : MonoBehaviour
 
 
     }
-               
-    void TransparentMode(Renderer currentChild)
+
+    private void TransparentMode(Renderer currentChild)
     {
         if (currentChild != null)
         {
@@ -322,7 +279,6 @@ public class ModelHighlightAndMove : MonoBehaviour
 
 
     #endregion
-
 
 
 
@@ -346,7 +302,6 @@ public class ModelHighlightAndMove : MonoBehaviour
     {
         nameDisplay.gameObject.SetActive(true);
         nameDisplayText.text = currentRendere.name;
-        // nameDisplay.gameObject.SetActive(true);
         zPosition = Camera.main.WorldToScreenPoint(currentRendere.transform.position).z;
         positionOffset = currentRendere.transform.position - GetMouseAsWorldPoint();
     }
@@ -354,8 +309,8 @@ public class ModelHighlightAndMove : MonoBehaviour
 
 
 
-    List<ParentChildForDrag> DragObjectCollection = new List<ParentChildForDrag>();
-    void DragMultipleObject(bool Isbuttonpressed)
+    private List<ParentChildForDrag> DragObjectCollection = new List<ParentChildForDrag>();
+    private void DragMultipleObject(bool Isbuttonpressed)
     {
         if (Isbuttonpressed)
         {
@@ -387,21 +342,13 @@ public class ModelHighlightAndMove : MonoBehaviour
 
 
     #endregion
-    Renderer NameToRender(string Name)
-    {
-        foreach (var i in dropDownUI.modelChildHolder)
-        {
-            if (i.ChildModel.name == Name)
-            {
-                return i.ModelRenderer;
-            }
-        }
-        return null;
-    }
 
-    public List<string> subChildNamesSubcribe = new List<string>();
 
-    public void SubchildSelectedFromUI(string buttonName)
+    #region HightLight Decision Making // Hight Name in UI Button
+
+    private List<string> subChildNamesSubcribe = new List<string>();
+
+    public void SubchildSelectedFromUI(string buttonName)   // Input from DropDownUI for Selection and HighLight Name
     {
         Renderer SelectedRender = NameToRender(buttonName);
 
@@ -416,11 +363,10 @@ public class ModelHighlightAndMove : MonoBehaviour
         else
         {
             HightLightUIselectionChild(true, buttonName);
-           
         }
     }
 
-    void HightLightUIselectionChild(bool state, string buttonName)
+    private void HightLightUIselectionChild(bool state, string buttonName)
     {
         foreach (var i in dropDownUI.modelChildHolder)
         {
@@ -453,11 +399,46 @@ public class ModelHighlightAndMove : MonoBehaviour
         }
     }
 
+    #endregion
 
 
+    #region Return Type Functions
+    private Renderer NameToRender(string Name)
+    {
+        foreach (var i in dropDownUI.modelChildHolder)
+        {
+            if (i.ChildModel.name == Name)
+            {
+                return i.ModelRenderer;
+            }
+        }
+        return null;
+    }
 
 
+    private bool IsMouseOverUI()
+    {
+        PointerEventData pointerEventData = new PointerEventData(EventSystem.current);
+        pointerEventData.position = Input.mousePosition;
 
+        List<RaycastResult> raycastResultsList = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(pointerEventData, raycastResultsList);
+        for (int i = 0; i < raycastResultsList.Count; i++)
+        {
+            if (raycastResultsList[i].gameObject.CompareTag("IgnoresUI"))
+            {
+                raycastResultsList.RemoveAt(i);
+                i--;
 
+                if (currentRender)
+                {
+                    RestColour(currentRender);
+                    currentRender = null;
+                }
+            }
+        }
+        return raycastResultsList.Count > 0;
+    }
 
+    #endregion
 }

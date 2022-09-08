@@ -1,24 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class ModelController : MonoBehaviour
 {
-    
-   // [SerializeField]
-   // private GameObject dropDownUIModel;
     [Tooltip("Mouse Drag to Object Rotation Speed")]
     [SerializeField]
-    [Range(0,1)]
+    [Range(0, 1)]
     private float speed;
-   // [SerializeField]
     public Material DefaultMaterial;
-   // [SerializeField]
     public Material X_RayMaterial;
-   // [SerializeField]
     public Material HighLightMaterial;
     public Material TransparentMaterial;
     [SerializeField]
@@ -32,14 +23,12 @@ public class ModelController : MonoBehaviour
     Vector3 previousPose;
     Vector3 currentPose;
 
-    void Update()
+    private void Update()
     {
-        // Application.targetFrameRate = 30;
         MoveWholeModel();
-
-        
     }
 
+    #region Movement
     private void MoveWholeModel()
     {
         if (Input.GetMouseButtonDown(2))
@@ -52,9 +41,9 @@ public class ModelController : MonoBehaviour
         if (Input.GetMouseButton(2))
         {
             dropDownUI.Model.transform.position = GetMouseAsWorldPoint() + positionOffset;
-            
+
         }
-        if(Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1))
         {
             previousPose = Input.mousePosition;
 
@@ -68,39 +57,24 @@ public class ModelController : MonoBehaviour
             previousPose = Input.mousePosition;
         }
 
-        else if(Input.GetMouseButtonUp(2)|| Input.GetMouseButtonUp(1))
+        else if (Input.GetMouseButtonUp(2) || Input.GetMouseButtonUp(1))
         {
             modelHighlightAndMove.MouseClicked = false;
         }
-       
-
     }
-
 
 
     private Vector3 GetMouseAsWorldPoint()
     {
-
-        // Pixel coordinates of mouse (x,y)
-
         Vector3 mousePoint = Input.mousePosition;
-
-
-
-        // z coordinate of game object on screen
-
         mousePoint.z = zPosition;
-
-
-
-        // Convert it to world points
-
         return Camera.main.ScreenToWorldPoint(mousePoint);
-
     }
+    #endregion
 
+    #region Rotation
 
-    void RoateModel()
+    private void RoateModel()
     {
         currentPose = Input.mousePosition - previousPose;
         if (Vector3.Dot(dropDownUI.Model.transform.up, Vector3.up) >= 0)
@@ -118,6 +92,7 @@ public class ModelController : MonoBehaviour
 
 
     }
+    #endregion
 
     #region UIButton 
 
@@ -129,33 +104,27 @@ public class ModelController : MonoBehaviour
     private TextMeshProUGUI ModelText;
     public delegate void OnButtonClickDelegate();
     private event OnButtonClickDelegate buttonClickDelegate;
-    public void  OnButtonPressed(string ButtonName)
+    public void OnButtonPressed(string ButtonName)
     {
-       // X_RayMode(false);
-       // TransparentMode(false);
         switch (ButtonName)
         {
             case "XRay":
-               
+
                 X_RayMode();
 
-                    break;
+                break;
             case "Transparent":
-                
+
                 TransparentMode();
                 break;
             case "Model":
                 ModelMode();
 
                 break;
-
-
         }
-
-       
     }
-    bool X_RayBool;
-    void X_RayMode()
+    private bool X_RayBool;
+    private void X_RayMode()
     {
         X_RayBool = !X_RayBool;
 
@@ -172,16 +141,16 @@ public class ModelController : MonoBehaviour
         {
             XRayText.color = Color.black;
             ChangeMaterial(DefaultMaterial);
-          //  CurrentMode = "Default";
+            //  CurrentMode = "Default";
             buttonClickDelegate -= X_RayMode;
             buttonClickDelegate?.Invoke();
         }
 
     }
 
-    bool TransparentBool;
+    private bool TransparentBool;
 
-    void TransparentMode()
+    private void TransparentMode()
     {
         TransparentBool = !TransparentBool;
         if (TransparentBool)
@@ -196,30 +165,30 @@ public class ModelController : MonoBehaviour
         {
             TransText.color = Color.black;
             ChangeMaterial(DefaultMaterial);
-           // CurrentMode = "Default";
+            // CurrentMode = "Default";
             buttonClickDelegate -= TransparentMode;
             buttonClickDelegate?.Invoke();
         }
     }
 
-    bool ModelBool;
+    private bool ModelBool;
 
-    void ModelMode()
+    private void ModelMode()
     {
         ModelBool = !ModelBool;
         if (ModelBool)
         {
             ScrollViewRect.gameObject.SetActive(true);
             ModelText.color = Color.green;
-          //  buttonClickDelegate?.Invoke();
-          //  buttonClickDelegate += ModelMode;
+            //  buttonClickDelegate?.Invoke();
+            //  buttonClickDelegate += ModelMode;
         }
         else
         {
             ScrollViewRect.gameObject.SetActive(false);
             ModelText.color = Color.black;
-          //  buttonClickDelegate -= ModelMode;
-          //  buttonClickDelegate?.Invoke();
+            //  buttonClickDelegate -= ModelMode;
+            //  buttonClickDelegate?.Invoke();
         }
     }
 
@@ -229,9 +198,10 @@ public class ModelController : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
+    [HideInInspector]
     public string CurrentMode = string.Empty;
 
-    void ChangeMaterial(Material materialToChange)
+    private void ChangeMaterial(Material materialToChange)
     {
 
         foreach (var i in dropDownUI.modelChildHolder)
@@ -239,7 +209,7 @@ public class ModelController : MonoBehaviour
             if (i.ModelRenderer)
             {
                 i.ModelRenderer.material = materialToChange;
-               // i.ModelRenderer.material
+                // i.ModelRenderer.material
             }
         }
     }

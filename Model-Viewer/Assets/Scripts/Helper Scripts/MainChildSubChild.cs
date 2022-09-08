@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
-public class MainChildSubChild 
+public class MainChildSubChild
 {
     public string MainChildUI;
     public Transform SubChildUI;

@@ -30,7 +30,7 @@ public class NameDisplayLookAt : MonoBehaviour
             parent = transform.parent;
             transform.SetParent(null);
         }
-       
+
     }
 
     void FixedUpdate()
