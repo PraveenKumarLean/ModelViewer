@@ -116,6 +116,7 @@ public class ModelHighlightAndMove : MonoBehaviour
                         {
                             if(currentRendere!= i.ModelRenderer)
                             RestColour(currentRendere);
+                            currentRendere = null;
                         }
                        
                     }
@@ -209,6 +210,12 @@ public class ModelHighlightAndMove : MonoBehaviour
             {
                 raycastResultsList.RemoveAt(i);
                 i--;
+                
+                if(currentRendere) 
+                {
+                    RestColour(currentRendere);
+                    currentRendere = null;
+                }
             }
         }
         return raycastResultsList.Count > 0;
@@ -396,18 +403,20 @@ public class ModelHighlightAndMove : MonoBehaviour
 
     public void SubchildSelectedFromUI(string buttonName)
     {
+        Renderer SelectedRender = NameToRender(buttonName);
+
         if (subChildNamesSubcribe.Exists(x => x == buttonName))
         {
-            
             HightLightUIselectionChild(false, buttonName);
-            if (SelectedChild.Exists(x => x == NameToRender(buttonName)))
+            if (SelectedChild.Exists(x => x == SelectedRender))
             {
-                SelectedChild.Remove(NameToRender(buttonName));
+                SelectedChild.Remove(SelectedRender);
             }
         }
         else
         {
             HightLightUIselectionChild(true, buttonName);
+           
         }
     }
 
