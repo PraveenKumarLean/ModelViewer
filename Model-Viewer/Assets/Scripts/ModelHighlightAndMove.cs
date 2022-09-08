@@ -112,6 +112,11 @@ public class ModelHighlightAndMove : MonoBehaviour
                                 }
                             }
                         }
+                        else if(SelectedChild.Exists(x => x == i.ModelRenderer))
+                        {
+                            if(currentRendere!= i.ModelRenderer)
+                            RestColour(currentRendere);
+                        }
                        
                     }
                 }
