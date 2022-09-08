@@ -162,9 +162,9 @@ public class ModelController : MonoBehaviour
         if (X_RayBool)
         {
             XRayText.color = Color.green;
-            ChangeMaterial(X_RayMaterial);
             buttonClickDelegate?.Invoke();
             buttonClickDelegate += X_RayMode;
+            ChangeMaterial(X_RayMaterial);
 
             CurrentMode = "XRay";
         }
@@ -172,9 +172,9 @@ public class ModelController : MonoBehaviour
         {
             XRayText.color = Color.black;
             ChangeMaterial(DefaultMaterial);
+          //  CurrentMode = "Default";
             buttonClickDelegate -= X_RayMode;
             buttonClickDelegate?.Invoke();
-            
         }
 
     }
@@ -187,15 +187,16 @@ public class ModelController : MonoBehaviour
         if (TransparentBool)
         {
             TransText.color = Color.green;
-            ChangeMaterial(TransparentMaterial);
             buttonClickDelegate?.Invoke();
             buttonClickDelegate += TransparentMode;
+            ChangeMaterial(TransparentMaterial);
             CurrentMode = "Transparent";
         }
         else
         {
             TransText.color = Color.black;
             ChangeMaterial(DefaultMaterial);
+           // CurrentMode = "Default";
             buttonClickDelegate -= TransparentMode;
             buttonClickDelegate?.Invoke();
         }

@@ -29,7 +29,7 @@ public class ModelHighlightAndMove : MonoBehaviour
         nameDisplayText = nameDisplay.GetComponentInChildren<TextMeshProUGUI>();
         AssignMaterialColour();
         MouseClicked = false;
-        Debug.Log("No Idea "+ SystemInfo.operatingSystem);
+     //   Debug.Log("No Idea "+ SystemInfo.operatingSystem);
     }
 
 
@@ -62,6 +62,7 @@ public class ModelHighlightAndMove : MonoBehaviour
             {
                 if (ObjectSelectedToMove != null)
                 {
+
                     ObjectSelectedToMove.transform.position = GetMouseAsWorldPoint() + positionOffset;
                     Vector3 positionss = Input.mousePosition + NameDisplayOffset;
                     nameDisplay.transform.position = positionss;
@@ -111,6 +112,7 @@ public class ModelHighlightAndMove : MonoBehaviour
                                 }
                             }
                         }
+                       
                     }
                 }
                
@@ -159,11 +161,9 @@ public class ModelHighlightAndMove : MonoBehaviour
                                 SelectedChild.Clear();
                                 if (ObjectSelectedToMove)
                                 {
-                                     HightLightUIselectionChild(false, ObjectSelectedToMove.name);
+                                    HightLightUIselectionChild(false, ObjectSelectedToMove.name);
                                 }
                                 ObjectSelectedToMove = i.ModelRenderer;
-                                //SelectedChild.Add(ObjectSelectedToMove);
-                                // SelectionHighLight(ObjectSelectedToMove);
                                 HightLightUIselectionChild(true, ObjectSelectedToMove.name);
 
 
@@ -200,13 +200,12 @@ public class ModelHighlightAndMove : MonoBehaviour
         EventSystem.current.RaycastAll(pointerEventData, raycastResultsList);
         for(int i =0; i<raycastResultsList.Count; i++)
         {
-            if(!raycastResultsList[i].gameObject.CompareTag("IgnoresUI"))
+            if (raycastResultsList[i].gameObject.CompareTag("IgnoresUI"))
             {
                 raycastResultsList.RemoveAt(i);
                 i--;
             }
         }
-
         return raycastResultsList.Count > 0;
     }
 
@@ -240,8 +239,6 @@ public class ModelHighlightAndMove : MonoBehaviour
     {
         currentChild.material = modelController.HighLightMaterial;
         currentChild.material.color = highlightColour;
-
-       // currentHiglight.Add(currentChild);
     }
 
     void SelectionHighLight(Renderer currentChild)
@@ -285,8 +282,6 @@ public class ModelHighlightAndMove : MonoBehaviour
         if (currentChild != null)
         {
             currentChild.material = modelController.DefaultMaterial;
-
-           //currentRendere = null;
             currenHighlightName = string.Empty;
         }
     }
@@ -296,7 +291,6 @@ public class ModelHighlightAndMove : MonoBehaviour
         if (currentChild != null)
         {
             currentChild.material = modelController.X_RayMaterial;
-            //currentRendere = null;
             currenHighlightName = string.Empty;
         }
 
@@ -308,7 +302,6 @@ public class ModelHighlightAndMove : MonoBehaviour
         if (currentChild != null)
         {
             currentChild.material = modelController.TransparentMaterial;
-            //currentRendere = null;
             currenHighlightName = string.Empty;
         }
 
@@ -400,8 +393,7 @@ public class ModelHighlightAndMove : MonoBehaviour
     {
         if (subChildNamesSubcribe.Exists(x => x == buttonName))
         {
-            // CurrentMode();
-            Debug.Log("lusuuuuuuu");
+            
             HightLightUIselectionChild(false, buttonName);
             if (SelectedChild.Exists(x => x == NameToRender(buttonName)))
             {
@@ -425,7 +417,6 @@ public class ModelHighlightAndMove : MonoBehaviour
                     if (!subChildNamesSubcribe.Exists(x => x == buttonName))
                     {
                         subChildNamesSubcribe.Add(buttonName);
-                        //  SelectedChild.Add(ObjectSelectedToMove);
                         nameDisplay.gameObject.SetActive(false);
                     }
 
