@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using TMPro;
 
 public class ModelHighlightAndMove : MonoBehaviour
@@ -33,31 +34,37 @@ public class ModelHighlightAndMove : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            MouseClicked = true;
-            OnMouseButtonDown();
-            DragMultipleObject(true);
-        }
-        else if(!MouseClicked)
-        {
-            MouseHoverHighLight();
-        }
 
-        if (Input.GetMouseButtonUp(0))
+        if (!IsMouseOverUI())
         {
-            MouseClicked = false;
-            ObjectSelectedToMove = null;
-            DragMultipleObject(false);
-        }
+           
 
-        if(Input.GetMouseButton(0))
-        {
-            if (ObjectSelectedToMove != null)
+            if (Input.GetMouseButtonDown(0))
             {
-                ObjectSelectedToMove.transform.position = GetMouseAsWorldPoint() + positionOffset;
-                Vector3 positionss = Input.mousePosition + NameDisplayOffset;
-                nameDisplay.transform.position = positionss;
+                MouseClicked = true;
+                OnMouseButtonDown();
+                DragMultipleObject(true);
+            }
+            else if (!MouseClicked)
+            {
+                MouseHoverHighLight();
+            }
+
+            if (Input.GetMouseButtonUp(0))
+            {
+                MouseClicked = false;
+                ObjectSelectedToMove = null;
+                DragMultipleObject(false);
+            }
+
+            if (Input.GetMouseButton(0))
+            {
+                if (ObjectSelectedToMove != null)
+                {
+                    ObjectSelectedToMove.transform.position = GetMouseAsWorldPoint() + positionOffset;
+                    Vector3 positionss = Input.mousePosition + NameDisplayOffset;
+                    nameDisplay.transform.position = positionss;
+                }
             }
         }
        
@@ -183,7 +190,24 @@ public class ModelHighlightAndMove : MonoBehaviour
         }
     }
 
+    bool IsMouseOverUI()
+    {
+        PointerEventData pointerEventData = new PointerEventData(EventSystem.current);
+        pointerEventData.position = Input.mousePosition;
 
+        List<RaycastResult> raycastResultsList = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(pointerEventData, raycastResultsList);
+        for(int i =0; i<raycastResultsList.Count; i++)
+        {
+            if(!raycastResultsList[i].gameObject.CompareTag("IgnoresUI"))
+            {
+                raycastResultsList.RemoveAt(i);
+                i--;
+            }
+        }
+
+        return raycastResultsList.Count > 0;
+    }
 
 
 

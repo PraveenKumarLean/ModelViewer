@@ -22,8 +22,6 @@ public class ModelController : MonoBehaviour
     public Material HighLightMaterial;
     [SerializeField]
     private RectTransform ScrollViewRect;
-    [SerializeField]
-    private GameObject ScrollViewRectIgnoreRayBG;
     private Vector3 positionOffset;
     private float zPosition;
     [SerializeField]
@@ -204,7 +202,6 @@ public class ModelController : MonoBehaviour
         if (ModelBool)
         {
             ScrollViewRect.gameObject.SetActive(true);
-            ScrollViewRectIgnoreRayBG.SetActive(true);
             ModelText.color = Color.green;
             buttonClickDelegate?.Invoke();
             buttonClickDelegate += ModelMode;
@@ -212,7 +209,6 @@ public class ModelController : MonoBehaviour
         else
         {
             ScrollViewRect.gameObject.SetActive(false);
-            ScrollViewRectIgnoreRayBG.SetActive(false);
             ModelText.color = Color.black;
             buttonClickDelegate -= ModelMode;
             buttonClickDelegate?.Invoke();
