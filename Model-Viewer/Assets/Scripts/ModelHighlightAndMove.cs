@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -17,6 +18,8 @@ public class ModelHighlightAndMove : MonoBehaviour
     private Vector3 NameDisplayOffset;
     public Transform nameDisplay;
     private TextMeshProUGUI nameDisplayText;
+    [SerializeField]
+    private float ElasticLimitToRejoin;
    
 
     private void Start()
@@ -53,8 +56,8 @@ public class ModelHighlightAndMove : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             MouseClicked = false;
-            ObjectSelectedToMove = null;
             DragMultipleObject(false);
+            ObjectSelectedToMove = null;
         }
 
         if (Input.GetMouseButton(0))
@@ -325,15 +328,22 @@ public class ModelHighlightAndMove : MonoBehaviour
 
                         currentTransfor.SetParent(ObjectSelectedToMove.transform);
                     }
+                    
                 }
             }
         }
         else
         {
+            if (ObjectSelectedToMove)
+            {
+                Debug.Log("Detache called");
+                StartCoroutine(PlaceObjectOnItsRightPosition(ObjectSelectedToMove.transform));
+            }
             foreach (var i in DragObjectCollection)
             {
                 i.ChildObject.SetParent(i.ParentObject);
             }
+            
         }
 
     }
@@ -440,5 +450,46 @@ public class ModelHighlightAndMove : MonoBehaviour
         return raycastResultsList.Count > 0;
     }
 
+    Vector3 ChildDefaultPosition(string Name)
+    {
+        foreach (var i in dropDownUI.modelChildHolder)
+        {
+            if (i.ChildModel.name == Name)
+            {
+                return i.ChildLocalPosition;
+            }
+        }
+        return Vector3.zero;
+    }
     #endregion
+
+
+
+    #region Reposition the Object
+
+
+    IEnumerator PlaceObjectOnItsRightPosition(Transform ChildCurrentPosition)
+    {
+
+        Vector3 childDefaultPosition = ChildDefaultPosition(ChildCurrentPosition.name);
+        float Distance = Vector3.Distance(ChildCurrentPosition.localPosition, childDefaultPosition);
+        if(Distance < ElasticLimitToRejoin)
+        {
+            float elapsedTime = 0;
+            float waitTime = 0.5f;
+            while (elapsedTime < waitTime)
+            {
+                ChildCurrentPosition.transform.localPosition = Vector3.Lerp( ChildCurrentPosition.localPosition, childDefaultPosition, (elapsedTime / waitTime));
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+        }
+
+
+    }
+
+    #endregion
+
+
+
 }

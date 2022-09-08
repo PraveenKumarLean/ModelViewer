@@ -8,6 +8,9 @@ public class MainChildSubChild
     public TextMeshProUGUI SubChildTextUI;
     public Transform ChildModel;
     public Renderer ModelRenderer;
+    public Vector3 ChildLocalPosition;
+    public Quaternion ChildLocalRotation;
+
 }
 
 public class ParentChildForDrag

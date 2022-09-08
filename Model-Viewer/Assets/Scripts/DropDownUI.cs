@@ -82,7 +82,7 @@ public class DropDownUI : MonoBehaviour
         {
             text.text = "  " + currentInstanceName;
             // Load data of all object in an array class
-            modelChildHolder.Add(new MainChildSubChild { MainChildUI = mainChildName, SubChildUI = UIButtonInstance.transform, ChildModel = modelChild, ModelRenderer = modelChild.GetComponent<Renderer>(), SubChildTextUI = text });
+            modelChildHolder.Add(new MainChildSubChild { MainChildUI = mainChildName, SubChildUI = UIButtonInstance.transform, ChildModel = modelChild, ModelRenderer = modelChild.GetComponent<Renderer>(), SubChildTextUI = text , ChildLocalPosition = modelChild .transform.localPosition, ChildLocalRotation = modelChild.transform.rotation});
             text.color = new Color32(156, 244, 96, 255);
         }
         else
