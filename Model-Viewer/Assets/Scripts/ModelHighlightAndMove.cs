@@ -9,6 +9,9 @@ public class ModelHighlightAndMove : MonoBehaviour
     // Check Model is already selected
     private string currenHighlightName = string.Empty;
     [SerializeField]
+    private Camera MainCamera;
+
+    [SerializeField]
     private DropDownUI dropDownUI;
     [SerializeField]
     private ModelController modelController;
@@ -79,7 +82,7 @@ public class ModelHighlightAndMove : MonoBehaviour
 
     private void MouseHoverHighLight()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = MainCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 100))
         {
@@ -142,7 +145,7 @@ public class ModelHighlightAndMove : MonoBehaviour
     private List<Renderer> SelectedChild = new List<Renderer>();
     private void OnMouseButtonDown()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = MainCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit _hit;
 
         if (Physics.Raycast(ray, out _hit, 100))
@@ -336,7 +339,6 @@ public class ModelHighlightAndMove : MonoBehaviour
         {
             if (ObjectSelectedToMove)
             {
-                Debug.Log("Detache called");
                 StartCoroutine(PlaceObjectOnItsRightPosition(ObjectSelectedToMove.transform));
             }
             foreach (var i in DragObjectCollection)
