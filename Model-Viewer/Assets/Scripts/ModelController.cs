@@ -20,8 +20,14 @@ public class ModelController : MonoBehaviour
     private DropDownUI dropDownUI;
     [SerializeField]
     private ModelHighlightAndMove modelHighlightAndMove;
-    Vector3 previousPose;
-    Vector3 currentPose;
+    private Vector3 previousPose;
+    private Vector3 currentPose;
+    private Camera MainCamera;
+
+    private void Start()
+    {
+        MainCamera = modelHighlightAndMove.MainCamera;
+    }
 
     private void Update()
     {
@@ -33,7 +39,7 @@ public class ModelController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(2))
         {
-            zPosition = Camera.main.WorldToScreenPoint(dropDownUI.Model.transform.position).z;
+            zPosition = MainCamera.WorldToScreenPoint(dropDownUI.Model.transform.position).z;
             positionOffset = dropDownUI.Model.transform.position - GetMouseAsWorldPoint();
             modelHighlightAndMove.MouseClicked = true;
             modelHighlightAndMove.nameDisplay.gameObject.SetActive(false);
@@ -68,7 +74,7 @@ public class ModelController : MonoBehaviour
     {
         Vector3 mousePoint = Input.mousePosition;
         mousePoint.z = zPosition;
-        return Camera.main.ScreenToWorldPoint(mousePoint);
+        return MainCamera.ScreenToWorldPoint(mousePoint);
     }
     #endregion
 
@@ -77,17 +83,18 @@ public class ModelController : MonoBehaviour
     private void RoateModel()
     {
         currentPose = Input.mousePosition - previousPose;
+        
         if (Vector3.Dot(dropDownUI.Model.transform.up, Vector3.up) >= 0)
         {
 
-            dropDownUI.Model.transform.Rotate(dropDownUI.Model.transform.up, -Vector3.Dot(currentPose, Camera.main.transform.right) * speed, Space.World);
+            dropDownUI.Model.transform.Rotate(dropDownUI.Model.transform.up, -Vector3.Dot(currentPose, MainCamera.transform.right) * speed, Space.World);
         }
         else
         {
-            dropDownUI.Model.transform.Rotate(dropDownUI.Model.transform.up, Vector3.Dot(currentPose, Camera.main.transform.right) * speed, Space.World);
+            dropDownUI.Model.transform.Rotate(dropDownUI.Model.transform.up, Vector3.Dot(currentPose, MainCamera.transform.right) * speed, Space.World);
         }
 
-        dropDownUI.Model.transform.Rotate(Camera.main.transform.right, Vector3.Dot(currentPose, Camera.main.transform.up) * speed, Space.World);
+        dropDownUI.Model.transform.Rotate(MainCamera.transform.right, Vector3.Dot(currentPose, MainCamera.transform.up) * speed, Space.World);
 
 
 
@@ -142,7 +149,6 @@ public class ModelController : MonoBehaviour
             XRayText.color = Color.black;
             CurrentMode = string.Empty;
             ChangeMaterial(DefaultMaterial);
-            //  CurrentMode = "Default";
             buttonClickDelegate -= X_RayMode;
             buttonClickDelegate?.Invoke();
         }
@@ -167,7 +173,6 @@ public class ModelController : MonoBehaviour
             TransText.color = Color.black;
             CurrentMode = string.Empty;
             ChangeMaterial(DefaultMaterial);
-            // CurrentMode = "Default";
             buttonClickDelegate -= TransparentMode;
             buttonClickDelegate?.Invoke();
         }

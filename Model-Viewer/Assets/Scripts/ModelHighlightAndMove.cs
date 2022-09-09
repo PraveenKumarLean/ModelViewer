@@ -8,8 +8,7 @@ public class ModelHighlightAndMove : MonoBehaviour
 {
     // Check Model is already selected
     private string currenHighlightName = string.Empty;
-    [SerializeField]
-    private Camera MainCamera;
+    public Camera MainCamera;
 
     [SerializeField]
     private DropDownUI dropDownUI;
@@ -300,7 +299,7 @@ public class ModelHighlightAndMove : MonoBehaviour
         // z coordinate of game object on screen
         mousePoint.z = zPosition;
         // Convert it to world points
-        return Camera.main.ScreenToWorldPoint(mousePoint);
+        return MainCamera.ScreenToWorldPoint(mousePoint);
     }
 
 
@@ -308,7 +307,7 @@ public class ModelHighlightAndMove : MonoBehaviour
     {
         nameDisplay.gameObject.SetActive(true);
         nameDisplayText.text = currentRendere.name;
-        zPosition = Camera.main.WorldToScreenPoint(currentRendere.transform.position).z;
+        zPosition = MainCamera.WorldToScreenPoint(currentRendere.transform.position).z;
         positionOffset = currentRendere.transform.position - GetMouseAsWorldPoint();
     }
 
@@ -442,7 +441,7 @@ public class ModelHighlightAndMove : MonoBehaviour
                 raycastResultsList.RemoveAt(i);
                 i--;
 
-                //if (currenHighlightName != null && ObjectSelectedToMove.name!= currenHighlightName)
+                //if (currenHighlightName != null && ObjectSelectedToMove.name!= currenHighlightName) // To avoid hightlight while move over from model to UI
                 //{
                 //    RestColour(NameToRender( currenHighlightName));
                 //    currentRender = null;
