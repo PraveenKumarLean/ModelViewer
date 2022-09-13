@@ -115,13 +115,12 @@ public class ModelController : MonoBehaviour
         switch (ButtonName)
         {
             case "XRay":
-
                 X_RayMode();
 
                 break;
             case "Transparent":
-
                 TransparentMode();
+
                 break;
             case "Model":
                 ModelMode();
@@ -140,7 +139,6 @@ public class ModelController : MonoBehaviour
             buttonClickDelegate?.Invoke();
             buttonClickDelegate += X_RayMode;
             ChangeMaterial(X_RayMaterial);
-
             CurrentMode = "XRay";
         }
         else
@@ -208,9 +206,14 @@ public class ModelController : MonoBehaviour
 
         foreach (var i in dropDownUI.modelChildHolder)
         {
-            if (i.ModelRenderer)
+            Renderer _render = i.ModelRenderer; 
+            if (_render)
             {
-                i.ModelRenderer.material = materialToChange;
+                if (!modelHighlightAndMove.SelectedChild.Exists(x => x.name == _render.name))
+                {
+                    i.ModelRenderer.material = materialToChange;
+                }
+                    
             }
         }
     }

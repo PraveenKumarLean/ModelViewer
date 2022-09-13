@@ -471,8 +471,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 14.77
+  m_fontSizeBase: 14.77
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 0
@@ -699,7 +699,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 155.6869, y: 30}
+  m_SizeDelta: {x: 94.3301, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &218526573
 MonoBehaviour:
@@ -846,6 +846,7 @@ MonoBehaviour:
   NameDisplayOffset: {x: 160, y: 0, z: 0}
   nameDisplay: {fileID: 214936063}
   ElasticLimitToRejoin: 1
+  SelectedChild: []
   defaultColour:
     serializedVersion: 2
     rgba: 4290751676
@@ -858,6 +859,7 @@ MonoBehaviour:
   selectionColour:
     serializedVersion: 2
     rgba: 4290629988
+  currentRender: {fileID: 0}
 --- !u!1 &319036203
 GameObject:
   m_ObjectHideFlags: 0
@@ -1141,8 +1143,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 100.200195, y: -87}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 153.97302, y: -87}
+  m_SizeDelta: {x: 287.9461, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &511418668
 MonoBehaviour:
@@ -1162,7 +1164,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 10.65
+  m_Spacing: 2.14
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -1284,7 +1286,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 102.9578, y: 30}
+  m_SizeDelta: {x: 62.3817, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &644359585
 MonoBehaviour:
@@ -1924,8 +1926,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 14.77
+  m_fontSizeBase: 14.77
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 0
@@ -2182,8 +2184,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 14.77
+  m_fontSizeBase: 14.77
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 0
@@ -2271,8 +2273,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 299, y: -592.3}
-  m_SizeDelta: {x: 502.0981, y: 975.09}
+  m_AnchoredPosition: {x: 153.97, y: -400.1}
+  m_SizeDelta: {x: 287.95, y: 639.79}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1360459178
 MonoBehaviour:
@@ -2380,7 +2382,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 102.9578, y: 30}
+  m_SizeDelta: {x: 62.3817, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1382004078
 MonoBehaviour:
@@ -2629,7 +2631,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 102.9578, y: 30}
+  m_SizeDelta: {x: 62.3817, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1491980964
 MonoBehaviour:
@@ -2810,8 +2812,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 14.77
+  m_fontSizeBase: 14.77
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 0
@@ -3257,8 +3259,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 14
+  m_fontSizeBase: 14
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -3411,8 +3413,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 242.54906, y: -25}
-  m_SizeDelta: {x: 465.0981, y: 30}
+  m_AnchoredPosition: {x: 135.475, y: -25}
+  m_SizeDelta: {x: 250.95001, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &6672067502594476466
 GameObject:

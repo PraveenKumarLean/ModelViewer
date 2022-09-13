@@ -22,7 +22,7 @@ public class ModelHighlightAndMove : MonoBehaviour
     private TextMeshProUGUI nameDisplayText;
     [SerializeField]
     private float ElasticLimitToRejoin;
-   
+    private bool delayObjectOnUI; 
 
     private void Start()
     {
@@ -37,7 +37,12 @@ public class ModelHighlightAndMove : MonoBehaviour
 
         if (!IsMouseOverUI())
         {
-            MouseInputs();
+            if(!delayObjectOnUI)
+            {
+                
+                MouseInputs();
+            }
+           
         }
 
     }
@@ -72,6 +77,11 @@ public class ModelHighlightAndMove : MonoBehaviour
                 nameDisplay.transform.position = positionss;
             }
         }
+    }
+
+    private void DelayMouseFunction()
+    {
+        delayObjectOnUI = false;
     }
 
     #region Mouse Hover HighLight
@@ -141,7 +151,7 @@ public class ModelHighlightAndMove : MonoBehaviour
     #region Mouse Selection
 
 
-    private List<Renderer> SelectedChild = new List<Renderer>();
+    public List<Renderer> SelectedChild = new List<Renderer>();
     private void OnMouseButtonDown()
     {
         Ray ray = MainCamera.ScreenPointToRay(Input.mousePosition);
@@ -175,9 +185,9 @@ public class ModelHighlightAndMove : MonoBehaviour
             }
             else if (CurrentSelection.gameObject.layer == 0)
             {
+                nameDisplay.gameObject.SetActive(false);
                 ResetAllSelectedList();
                 SelectedChild.Clear();
-                nameDisplay.gameObject.SetActive(false);
             }
         }
     }
@@ -198,7 +208,7 @@ public class ModelHighlightAndMove : MonoBehaviour
     private Color32 selectionColour = new Color32(100, 209, 189, 255);
 
 
-    private Renderer currentRender;
+    public Renderer currentRender;
 
     private List<Renderer> currentHiglight = new List<Renderer>();
 
@@ -223,6 +233,7 @@ public class ModelHighlightAndMove : MonoBehaviour
         currentHiglight.Add(currentChild);
     }
 
+   
     private void ResetAllSelectedList()
     {
         int index = SelectedChild.Count;
@@ -440,12 +451,11 @@ public class ModelHighlightAndMove : MonoBehaviour
             {
                 raycastResultsList.RemoveAt(i);
                 i--;
-
-                //if (currenHighlightName != null && ObjectSelectedToMove.name!= currenHighlightName) // To avoid hightlight while move over from model to UI
-                //{
-                //    RestColour(NameToRender( currenHighlightName));
-                //    currentRender = null;
-                //}
+                if (!Input.GetMouseButton(0)) // Over UI button to stop working of button click
+                {
+                    delayObjectOnUI = true;
+                    Invoke("DelayMouseFunction", 0.001f); // When UI button Clicked to Avoid Selection of Child Part
+                }
             }
         }
         return raycastResultsList.Count > 0;
