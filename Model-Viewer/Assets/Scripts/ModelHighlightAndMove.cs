@@ -39,7 +39,6 @@ public class ModelHighlightAndMove : MonoBehaviour
         {
             if(!delayObjectOnUI)
             {
-                
                 MouseInputs();
             }
            
@@ -454,7 +453,7 @@ public class ModelHighlightAndMove : MonoBehaviour
                 if (!Input.GetMouseButton(0)) // Over UI button to stop working of button click
                 {
                     delayObjectOnUI = true;
-                    Invoke("DelayMouseFunction", 0.001f); // When UI button Clicked to Avoid Selection of Child Part
+                    Invoke("DelayMouseFunction", 0.001f); //When UI button Clicked to Avoid Selection of Child Part
                 }
             }
         }
